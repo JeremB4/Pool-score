@@ -47,7 +47,9 @@ label,small,.hint{color:#a9b8ae;font-size:12px}
 .stat-row button{border:0;border-radius:8px;width:40px;height:36px;font-size:22px;font-weight:bold}
 .timer{background:#0d1e16;padding:12px;border-radius:12px;text-align:center}
 .time{font-size:30px;font-weight:bold;margin:10px 0;font-variant-numeric:tabular-nums}
-.row{display:flex;justify-content:space-between;gap:8px;padding:12px 0;border-bottom:1px solid #ffffff20;font-size:13px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 0;border-bottom:1px solid #ffffff20;font-size:13px}
+.row-info{flex:1;min-width:0}
+.delete{background:#a9323b;color:white;border:0;border-radius:8px;padding:9px 10px;font-size:12px;font-weight:bold;flex-shrink:0}
 .rank{display:flex;justify-content:space-between;padding:13px;border-bottom:1px solid #ffffff20;gap:8px}
 .rank b{color:#e4bd59}
 .hidden{display:none}
@@ -441,22 +443,45 @@ return String(s).replace(/[&<>"']/g,c=>({
 }[c]));
 }
 
+// Nouvelle fonction : supprimer un match de l'historique
+function deleteMatch(index){
+const match=history[index];
+if(!match)return;
+
+const joueurs=(match.players||['Joueur 1','Joueur 2']).join(' vs ');
+
+if(!confirm('Supprimer définitivement cette rencontre ?\n\n'+joueurs+'\n\nElle sera également retirée des classements.'))return;
+
+history.splice(index,1);
+save();
+renderHistory();
+renderRanking();
+}
+
 function renderHistory(){
-$('historyList').innerHTML=history.length?history.map(h=>
-'<div class="row"><span>'+esc(h.players[0])+' vs '+esc(h.players[1])+
-'<br><small>'+esc(h.date)+'</small></span><span>'+
-esc(h.winner)+'<br>'+h.score.join(' - ')+
-'<br><small>Fermes : '+
-((h.casses[0]+h.reprises[0])+' - '+(h.casses[1]+h.reprises[1]))+
-'</small></span></div>'
+$('historyList').innerHTML=history.length?history.map((h,i)=>
+'<div class="row">'+
+'<div class="row-info"><strong>'+esc((h.players||['Joueur 1','Joueur 2'])[0])+' vs '+esc((h.players||['Joueur 1','Joueur 2'])[1])+'</strong>'+
+'<br><small>'+esc(h.date||'Date inconnue')+'</small>'+
+'<br><span>'+esc(h.winner||'')+' — '+(h.score||[0,0]).join(' - ')+'</span>'+
+'<br><small>Fermes : '+((h.casses[0]+h.reprises[0])+' - '+(h.casses[1]+h.reprises[1]))+'</small></div>'+
+'<button class="delete" data-delete-index="'+i+'">🗑️ Supprimer</button>'+
+'</div>'
 ).join(''):'Aucune rencontre terminée.';
+
+// Activation des boutons de suppression
+document.querySelectorAll('[data-delete-index]').forEach(button=>{
+button.onclick=()=>{
+deleteMatch(Number(button.dataset.deleteIndex));
+};
+});
 }
 
 function renderRanking(){
 let stats={};
 
 history.forEach(h=>{
-h.players.forEach((n,i)=>{
+(h.players||[]).forEach((n,i)=>{
 stats[n]??={wins:0,played:0,fermes:0};
 stats[n].played++;
 stats[n].fermes+=(h.casses[i]||0)+(h.reprises[i]||0);
