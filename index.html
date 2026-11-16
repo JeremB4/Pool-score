@@ -19,21 +19,29 @@ nav button.active{background:#2d7952}
 h3{color:#e4bd59;font-size:13px;letter-spacing:1px}
 input{background:#0d1e16;color:white;border:1px solid #49634e;border-radius:8px;padding:12px;width:100%;font-size:17px}
 .players,.timers{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.player{text-align:center;padding:12px;background:#20372b;border-radius:12px}
-.score{font-size:54px;font-weight:bold;margin:12px}
-.controls{display:flex;gap:10px}
-.controls button{flex:1;font-size:30px;font-weight:bold;padding:12px;border:0;border-radius:12px}
+.player{text-align:center;padding:10px;background:#20372b;border-radius:12px;min-width:0}
+.score{font-size:48px;font-weight:bold;margin:10px}
+.controls{display:flex;gap:8px}
+.controls button{flex:1;font-size:27px;font-weight:bold;padding:8px;border:0;border-radius:10px}
 .plus{background:#2d7952;color:white}
 .minus{background:#a9323b;color:white}
+.minus:disabled{opacity:.35}
 .action{background:#2d7952;color:white;border:0;border-radius:9px;padding:13px;font-size:15px;font-weight:bold}
 .gold{background:#d9ad32;color:#172117}
 .gray{background:#34483a;color:white}
 .full{width:100%;margin-top:9px}
-.timer{background:#0d1e16;padding:12px;border-radius:12px;text-align:center}
-.time{font-size:30px;font-weight:bold;margin:10px 0;font-variant-numeric:tabular-nums}
 label,small,.hint{color:#a9b8ae;font-size:12px}
 .hint{line-height:1.5}
+.stat{background:#13251b;border-radius:9px;padding:10px;margin-top:9px;text-align:left}
+.stat-title{font-size:13px;color:#e4bd59;margin-bottom:7px}
+.stat-row{display:flex;align-items:center;justify-content:space-between;gap:5px}
+.stat-row strong{font-size:19px;min-width:25px;text-align:center}
+.stat-row button{border:0;border-radius:8px;width:40px;height:36px;font-size:22px;font-weight:bold}
+.timer{background:#0d1e16;padding:12px;border-radius:12px;text-align:center}
+.time{font-size:30px;font-weight:bold;margin:10px 0;font-variant-numeric:tabular-nums}
 .row{display:flex;justify-content:space-between;gap:8px;padding:12px 0;border-bottom:1px solid #ffffff20;font-size:13px}
+.rank{display:flex;justify-content:space-between;padding:13px;border-bottom:1px solid #ffffff20;gap:8px}
+.rank b{color:#e4bd59}
 .hidden{display:none}
 </style>
 </head>
@@ -60,20 +68,58 @@ label,small,.hint{color:#a9b8ae;font-size:12px}
 <input id="p1" value="Joueur 1">
 <div class="score" id="s1">0</div>
 <div class="controls">
-<button class="minus" id="m1">−</button>
-<button class="plus" id="a1">+</button>
+<button class="minus" id="m1" disabled>−</button>
+<button class="plus" id="a1" disabled>+</button>
+</div>
+
+<div class="stat">
+<div class="stat-title">CASSE FERME</div>
+<div class="stat-row">
+<button class="minus" id="cm1" disabled>−</button>
+<strong id="c1">0</strong>
+<button class="plus" id="ca1" disabled>+</button>
 </div>
 </div>
+
+<div class="stat">
+<div class="stat-title">REPRISE FERME</div>
+<div class="stat-row">
+<button class="minus" id="rm1" disabled>−</button>
+<strong id="r1">0</strong>
+<button class="plus" id="ra1" disabled>+</button>
+</div>
+</div>
+</div>
+
 <div class="player">
 <label>JOUEUR 2</label>
 <input id="p2" value="Joueur 2">
 <div class="score" id="s2">0</div>
 <div class="controls">
-<button class="minus" id="m2">−</button>
-<button class="plus" id="a2">+</button>
+<button class="minus" id="m2" disabled>−</button>
+<button class="plus" id="a2" disabled>+</button>
+</div>
+
+<div class="stat">
+<div class="stat-title">CASSE FERME</div>
+<div class="stat-row">
+<button class="minus" id="cm2" disabled>−</button>
+<strong id="c2">0</strong>
+<button class="plus" id="ca2" disabled>+</button>
+</div>
+</div>
+
+<div class="stat">
+<div class="stat-title">REPRISE FERME</div>
+<div class="stat-row">
+<button class="minus" id="rm2" disabled>−</button>
+<strong id="r2">0</strong>
+<button class="plus" id="ra2" disabled>+</button>
 </div>
 </div>
 </div>
+</div>
+
 <h3>RENCONTRE</h3>
 <label>Nombre de manches à gagner</label>
 <input id="target" type="number" min="1" value="3">
@@ -102,7 +148,7 @@ label,small,.hint{color:#a9b8ae;font-size:12px}
 <button class="action gray full" id="shotPause">Pause</button>
 </div>
 </div>
-<p class="hint">Le temps entre les coups démarre avec le bouton Nouveau coup. Sonnerie et vibration à la fin, selon les possibilités de l'iPhone.</p>
+<p class="hint">Le chronomètre entre les coups démarre avec Nouveau coup. Sonnerie et vibration à la fin, selon les possibilités de l'iPhone.</p>
 </div>
 </section>
 
@@ -116,43 +162,72 @@ label,small,.hint{color:#a9b8ae;font-size:12px}
 <section id="ranking" class="hidden">
 <div class="card">
 <h3>CLASSEMENT GÉNÉRAL</h3>
-<div id="rankingList">Pas encore de résultat.</div>
+<p class="hint">Classement par nombre de rencontres gagnées.</p>
+<div id="generalList">Pas encore de résultat.</div>
+</div>
+<div class="card">
+<h3>CLASSEMENT DES FERMES</h3>
+<p class="hint">Total des casses fermes et reprises fermes.</p>
+<div id="fermeList">Pas encore de résultat.</div>
 </div>
 </section>
 </main>
 
 <script>
 const $=id=>document.getElementById(id);
-let wins=[0,0],started=false,finished=false;
-let matchNames=[],recordId=null;
+let wins=[0,0],casses=[0,0],reprises=[0,0];
+let started=false,finished=false,matchNames=[];
 let total=2700,shot=30,totalRun=false,shotRun=false;
 let last=Date.now();
 let history=JSON.parse(localStorage.getItem('poolHistory')||'[]');
+
+history=history.map(h=>({
+...h,
+casses:h.casses||[0,0],
+reprises:h.reprises||[0,0]
+}));
 
 function fmt(v){
 v=Math.max(0,Math.ceil(v));
 return String(Math.floor(v/60)).padStart(2,'0')+':'+String(v%60).padStart(2,'0');
 }
+
 function names(){
 return [$('p1').value.trim()||'Joueur 1',$('p2').value.trim()||'Joueur 2'];
 }
+
 function goal(){
 return Math.max(1,Number($('target').value)||1);
 }
+
 function save(){
 localStorage.setItem('poolHistory',JSON.stringify(history));
 }
+
 function render(){
 $('s1').textContent=wins[0];
 $('s2').textContent=wins[1];
+$('c1').textContent=casses[0];
+$('c2').textContent=casses[1];
+$('r1').textContent=reprises[0];
+$('r2').textContent=reprises[1];
 $('total').textContent=fmt(total);
 $('shot').textContent=fmt(shot);
 $('totalBtn').textContent=totalRun?'Pause':'Démarrer';
 $('shotPause').textContent=shotRun?'Pause':'Reprendre';
-['m1','m2','a1','a2'].forEach(id=>{
+
+['m1','m2','a1','a2','cm1','cm2','ca1','ca2','rm1','rm2','ra1','ra2'].forEach(id=>{
 $(id).disabled=!started;
 });
+
+['cm1','cm2'].forEach((id,i)=>{
+$(id).disabled=!started||casses[i]===0;
+});
+['rm1','rm2'].forEach((id,i)=>{
+$(id).disabled=!started||reprises[i]===0;
+});
 }
+
 function alertEnd(){
 try{
 let C=window.AudioContext||window.webkitAudioContext;
@@ -166,92 +241,146 @@ o.onended=()=>c.close();
 }catch(e){}
 if(navigator.vibrate)navigator.vibrate([250,120,250,120,450]);
 }
+
 function removeFinish(){
-if(recordId!==null){
-history=history.filter(x=>x.id!==recordId);
+history=history.filter(h=>h.id!==recordId);
 recordId=null;
 save();
-}
 finished=false;
 }
+
+let recordId=null;
+
 function finishMatch(winner){
 finished=true;
 totalRun=false;
 shotRun=false;
 recordId=Date.now();
+
 history.unshift({
 id:recordId,
 date:new Date().toLocaleString('fr-FR'),
 players:matchNames.slice(),
 winner:matchNames[winner],
-score:wins.slice()
+score:wins.slice(),
+casses:casses.slice(),
+reprises:reprises.slice()
 });
-history=history.slice(0,100);
+
+history=history.slice(0,200);
 save();
 $('status').textContent='🏆 '+matchNames[winner]+' remporte la rencontre !';
 alertEnd();
 renderHistory();
 renderRanking();
 }
+
+function checkWinner(){
+let winner=wins.findIndex(v=>v>=goal());
+if(winner!==-1)finishMatch(winner);
+}
+
 function changeScore(player,amount){
 if(!started)return;
 if(finished)removeFinish();
 wins[player]=Math.max(0,wins[player]+amount);
-let winner=wins.findIndex(v=>v>=goal());
-if(winner!==-1){
-finishMatch(winner);
-}else{
+checkWinner();
+if(!finished){
 $('status').textContent='Rencontre en cours : '+wins[0]+' - '+wins[1]+'.';
 }
 render();
 }
+
+function changeFerme(player,type,amount){
+if(!started)return;
+if(finished)removeFinish();
+
+let array=type==='casse'?casses:reprises;
+
+if(amount<0&&array[player]===0)return;
+
+array[player]=Math.max(0,array[player]+amount);
+wins[player]=Math.max(0,wins[player]+amount);
+
+checkWinner();
+
+if(!finished){
+$('status').textContent='Rencontre en cours : '+wins[0]+' - '+wins[1]+'.';
+}
+render();
+}
+
 $('a1').onclick=()=>changeScore(0,1);
 $('m1').onclick=()=>changeScore(0,-1);
 $('a2').onclick=()=>changeScore(1,1);
 $('m2').onclick=()=>changeScore(1,-1);
+
+$('ca1').onclick=()=>changeFerme(0,'casse',1);
+$('cm1').onclick=()=>changeFerme(0,'casse',-1);
+$('ca2').onclick=()=>changeFerme(1,'casse',1);
+$('cm2').onclick=()=>changeFerme(1,'casse',-1);
+
+$('ra1').onclick=()=>changeFerme(0,'reprise',1);
+$('rm1').onclick=()=>changeFerme(0,'reprise',-1);
+$('ra2').onclick=()=>changeFerme(1,'reprise',1);
+$('rm2').onclick=()=>changeFerme(1,'reprise',-1);
 
 $('start').onclick=()=>{
 if(started&&!finished){
 alert('Une rencontre est déjà en cours.');
 return;
 }
+
 wins=[0,0];
+casses=[0,0];
+reprises=[0,0];
 matchNames=names();
 started=true;
 finished=false;
 recordId=null;
+
 total=Math.max(1,Number($('totalSet').value)||45)*60;
 shot=Math.max(1,Number($('shotSet').value)||30);
 totalRun=true;
 shotRun=false;
 last=Date.now();
+
 $('status').textContent='Rencontre démarrée ! Utilise + et − pour actualiser le score.';
 render();
 };
+
 $('reset').onclick=()=>{
 if(started&&!finished&&!confirm('Abandonner cette rencontre ?'))return;
-if(finished)removeFinish();
+
 wins=[0,0];
+casses=[0,0];
+reprises=[0,0];
 started=false;
 finished=false;
+recordId=null;
 totalRun=false;
 shotRun=false;
+
 total=Math.max(1,Number($('totalSet').value)||45)*60;
 shot=Math.max(1,Number($('shotSet').value)||30);
+
 $('status').textContent='Entre les noms des joueurs puis démarre la rencontre.';
 render();
 };
+
 $('totalBtn').onclick=()=>{
 if(!started){alert('Démarre d’abord la rencontre.');return;}
 totalRun=!totalRun;
 last=Date.now();
 render();
 };
+
 $('totalReset').onclick=()=>{
 totalRun=false;
 total=Math.max(1,Number($('totalSet').value)||45)*60;
 render();
 };
+
 $('newShot').onclick=()=>{
 if(!started){alert('Démarre d’abord la rencontre.');return;}
 shot=Math.max(1,Number($('shotSet').value)||30);
@@ -259,6 +388,7 @@ shotRun=true;
 last=Date.now();
 render();
 };
+
 $('shotPause').onclick=()=>{
 shotRun=!shotRun;
 last=Date.now();
@@ -266,34 +396,67 @@ render();
 };
 
 function esc(s){
-return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+return String(s).replace(/[&<>"']/g,c=>({
+'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+}[c]));
 }
+
 function renderHistory(){
 $('historyList').innerHTML=history.length?history.map(h=>
-'<div class="row"><span>'+esc(h.players[0])+' vs '+esc(h.players[1])+'<br><small>'+esc(h.date)+'</small></span><span>'+esc(h.winner)+'<br>'+h.score.join(' - ')+'</span></div>'
+'<div class="row"><span>'+esc(h.players[0])+' vs '+esc(h.players[1])+
+'<br><small>'+esc(h.date)+'</small></span><span>'+
+esc(h.winner)+'<br>'+h.score.join(' - ')+
+'<br><small>Fermes : '+((h.casses[0]+h.reprises[0])+' - '+(h.casses[1]+h.reprises[1]))+
+'</small></span></div>'
 ).join(''):'Aucune rencontre terminée.';
 }
+
 function renderRanking(){
 let stats={};
+
 history.forEach(h=>{
-h.players.forEach(n=>{
-stats[n]??={played:0,wins:0};
+h.players.forEach((n,i)=>{
+stats[n]??={wins:0,played:0,fermes:0};
 stats[n].played++;
+stats[n].fermes+=(h.casses[i]||0)+(h.reprises[i]||0);
 });
 if(stats[h.winner])stats[h.winner].wins++;
 });
-let rows=Object.entries(stats).sort((a,b)=>b[1].wins-a[1].wins);
-$('rankingList').innerHTML=rows.length?rows.map((x,i)=>
-'<div class="row"><span>'+(i+1)+'. '+esc(x[0])+'<br><small>'+x[1].played+' rencontre(s)</small></span><b>'+x[1].wins+' victoire(s)</b></div>'
+
+let general=Object.entries(stats).sort((a,b)=>
+b[1].wins-a[1].wins||b[1].played-a[1].played
+);
+
+let fermes=Object.entries(stats).sort((a,b)=>
+b[1].fermes-a[1].fermes
+);
+
+$('generalList').innerHTML=general.length?general.map((x,i)=>
+'<div class="rank"><span>'+(i+1)+'. '+esc(x[0])+
+'<br><small>'+x[1].played+' rencontre(s)</small></span><b>'+
+x[1].wins+' victoire(s)</b></div>'
+).join(''):'Pas encore de résultat.';
+
+$('fermeList').innerHTML=fermes.length?fermes.map((x,i)=>
+'<div class="rank"><span>'+(i+1)+'. '+esc(x[0])+
+'<br><small>'+x[1].fermes+' ferme(s) au total</small></span><b>'+
+x[1].fermes+'</b></div>'
 ).join(''):'Pas encore de résultat.';
 }
+
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
-document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x===b));
-['match','history','ranking'].forEach(id=>$(id).classList.toggle('hidden',id!==b.dataset.page));
+document.querySelectorAll('nav button').forEach(x=>
+x.classList.toggle('active',x===b)
+);
+['match','history','ranking'].forEach(id=>
+$(id).classList.toggle('hidden',id!==b.dataset.page)
+);
 });
+
 setInterval(()=>{
 let now=Date.now(),dt=(now-last)/1000;
 last=now;
+
 if(totalRun){
 total=Math.max(0,total-dt);
 if(total===0){
@@ -302,6 +465,7 @@ alertEnd();
 $('status').textContent='Temps total écoulé !';
 }
 }
+
 if(shotRun){
 shot=Math.max(0,shot-dt);
 if(shot===0){
@@ -312,6 +476,7 @@ $('status').textContent='Temps du coup écoulé !';
 }
 render();
 },250);
+
 render();
 renderHistory();
 renderRanking();
