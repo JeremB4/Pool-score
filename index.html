@@ -5,7 +5,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10291f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="POOL SCORE">
+
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./pool-score-icon.png">
+
 <title>POOL SCORE</title>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;padding:18px;background:#0b1712;color:white;font-family:-apple-system,sans-serif}
@@ -45,8 +53,10 @@ label,small,.hint{color:#a9b8ae;font-size:12px}
 .hidden{display:none}
 </style>
 </head>
+
 <body>
 <main>
+
 <header>
 <small>BILLARD ANGLAIS</small>
 <h1>POOL SCORE</h1>
@@ -62,11 +72,14 @@ label,small,.hint{color:#a9b8ae;font-size:12px}
 <section id="match">
 <div class="card">
 <h3>JOUEURS</h3>
+
 <div class="players">
+
 <div class="player">
 <label>JOUEUR 1</label>
 <input id="p1" value="Joueur 1">
 <div class="score" id="s1">0</div>
+
 <div class="controls">
 <button class="minus" id="m1" disabled>−</button>
 <button class="plus" id="a1" disabled>+</button>
@@ -95,6 +108,7 @@ label,small,.hint{color:#a9b8ae;font-size:12px}
 <label>JOUEUR 2</label>
 <input id="p2" value="Joueur 2">
 <div class="score" id="s2">0</div>
+
 <div class="controls">
 <button class="minus" id="m2" disabled>−</button>
 <button class="plus" id="a2" disabled>+</button>
@@ -123,13 +137,16 @@ label,small,.hint{color:#a9b8ae;font-size:12px}
 <h3>RENCONTRE</h3>
 <label>Nombre de manches à gagner</label>
 <input id="target" type="number" min="1" value="3">
+
 <button class="action full" id="start">DÉMARRER LA RENCONTRE</button>
 <button class="action gray full" id="reset">NOUVELLE RENCONTRE</button>
+
 <p class="hint" id="status">Entre les noms des joueurs puis démarre la rencontre.</p>
 </div>
 
 <div class="card">
 <h3>CHRONOMÈTRES</h3>
+
 <div class="timers">
 <div class="timer">
 <label>TEMPS TOTAL</label>
@@ -139,6 +156,7 @@ label,small,.hint{color:#a9b8ae;font-size:12px}
 <button class="action full" id="totalBtn">Démarrer</button>
 <button class="action gray full" id="totalReset">Réinitialiser</button>
 </div>
+
 <div class="timer">
 <label>TEMPS ENTRE LES COUPS</label>
 <div class="time" id="shot">00:30</div>
@@ -148,6 +166,7 @@ label,small,.hint{color:#a9b8ae;font-size:12px}
 <button class="action gray full" id="shotPause">Pause</button>
 </div>
 </div>
+
 <p class="hint">Le chronomètre entre les coups démarre avec Nouveau coup. Sonnerie et vibration à la fin, selon les possibilités de l'iPhone.</p>
 </div>
 </section>
@@ -165,20 +184,25 @@ label,small,.hint{color:#a9b8ae;font-size:12px}
 <p class="hint">Classement par nombre de rencontres gagnées.</p>
 <div id="generalList">Pas encore de résultat.</div>
 </div>
+
 <div class="card">
 <h3>CLASSEMENT DES FERMES</h3>
 <p class="hint">Total des casses fermes et reprises fermes.</p>
 <div id="fermeList">Pas encore de résultat.</div>
 </div>
 </section>
+
 </main>
 
 <script>
 const $=id=>document.getElementById(id);
+
 let wins=[0,0],casses=[0,0],reprises=[0,0];
 let started=false,finished=false,matchNames=[];
 let total=2700,shot=30,totalRun=false,shotRun=false;
 let last=Date.now();
+let recordId=null;
+
 let history=JSON.parse(localStorage.getItem('poolHistory')||'[]');
 
 history=history.map(h=>({
@@ -193,7 +217,10 @@ return String(Math.floor(v/60)).padStart(2,'0')+':'+String(v%60).padStart(2,'0')
 }
 
 function names(){
-return [$('p1').value.trim()||'Joueur 1',$('p2').value.trim()||'Joueur 2'];
+return [
+$('p1').value.trim()||'Joueur 1',
+$('p2').value.trim()||'Joueur 2'
+];
 }
 
 function goal(){
@@ -211,6 +238,7 @@ $('c1').textContent=casses[0];
 $('c2').textContent=casses[1];
 $('r1').textContent=reprises[0];
 $('r2').textContent=reprises[1];
+
 $('total').textContent=fmt(total);
 $('shot').textContent=fmt(shot);
 $('totalBtn').textContent=totalRun?'Pause':'Démarrer';
@@ -223,6 +251,7 @@ $(id).disabled=!started;
 ['cm1','cm2'].forEach((id,i)=>{
 $(id).disabled=!started||casses[i]===0;
 });
+
 ['rm1','rm2'].forEach((id,i)=>{
 $(id).disabled=!started||reprises[i]===0;
 });
@@ -233,9 +262,12 @@ try{
 let C=window.AudioContext||window.webkitAudioContext;
 if(C){
 let c=new C(),o=c.createOscillator(),g=c.createGain();
-o.connect(g);g.connect(c.destination);
-o.frequency.value=880;g.gain.value=.15;
-o.start();o.stop(c.currentTime+.6);
+o.connect(g);
+g.connect(c.destination);
+o.frequency.value=880;
+g.gain.value=.15;
+o.start();
+o.stop(c.currentTime+.6);
 o.onended=()=>c.close();
 }
 }catch(e){}
@@ -248,8 +280,6 @@ recordId=null;
 save();
 finished=false;
 }
-
-let recordId=null;
 
 function finishMatch(winner){
 finished=true;
@@ -269,7 +299,9 @@ reprises:reprises.slice()
 
 history=history.slice(0,200);
 save();
+
 $('status').textContent='🏆 '+matchNames[winner]+' remporte la rencontre !';
+
 alertEnd();
 renderHistory();
 renderRanking();
@@ -283,8 +315,10 @@ if(winner!==-1)finishMatch(winner);
 function changeScore(player,amount){
 if(!started)return;
 if(finished)removeFinish();
+
 wins[player]=Math.max(0,wins[player]+amount);
 checkWinner();
+
 if(!finished){
 $('status').textContent='Rencontre en cours : '+wins[0]+' - '+wins[1]+'.';
 }
@@ -369,7 +403,10 @@ render();
 };
 
 $('totalBtn').onclick=()=>{
-if(!started){alert('Démarre d’abord la rencontre.');return;}
+if(!started){
+alert('Démarre d’abord la rencontre.');
+return;
+}
 totalRun=!totalRun;
 last=Date.now();
 render();
@@ -382,7 +419,10 @@ render();
 };
 
 $('newShot').onclick=()=>{
-if(!started){alert('Démarre d’abord la rencontre.');return;}
+if(!started){
+alert('Démarre d’abord la rencontre.');
+return;
+}
 shot=Math.max(1,Number($('shotSet').value)||30);
 shotRun=true;
 last=Date.now();
@@ -406,7 +446,8 @@ $('historyList').innerHTML=history.length?history.map(h=>
 '<div class="row"><span>'+esc(h.players[0])+' vs '+esc(h.players[1])+
 '<br><small>'+esc(h.date)+'</small></span><span>'+
 esc(h.winner)+'<br>'+h.score.join(' - ')+
-'<br><small>Fermes : '+((h.casses[0]+h.reprises[0])+' - '+(h.casses[1]+h.reprises[1]))+
+'<br><small>Fermes : '+
+((h.casses[0]+h.reprises[0])+' - '+(h.casses[1]+h.reprises[1]))+
 '</small></span></div>'
 ).join(''):'Aucune rencontre terminée.';
 }
@@ -420,6 +461,7 @@ stats[n]??={wins:0,played:0,fermes:0};
 stats[n].played++;
 stats[n].fermes+=(h.casses[i]||0)+(h.reprises[i]||0);
 });
+
 if(stats[h.winner])stats[h.winner].wins++;
 });
 
@@ -448,6 +490,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
 document.querySelectorAll('nav button').forEach(x=>
 x.classList.toggle('active',x===b)
 );
+
 ['match','history','ranking'].forEach(id=>
 $(id).classList.toggle('hidden',id!==b.dataset.page)
 );
@@ -480,6 +523,16 @@ render();
 render();
 renderHistory();
 renderRanking();
+
+// Enregistrement du service worker pour le mode hors connexion
+if('serviceWorker' in navigator){
+window.addEventListener('load',()=>{
+navigator.serviceWorker.register('./sw.js').catch(error=>{
+console.log('Service worker non enregistré',error);
+});
+});
+}
 </script>
+
 </body>
 </html>
