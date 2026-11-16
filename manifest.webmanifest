@@ -1,0 +1,19 @@
+
+{
+  "name": "POOL SCORE",
+  "short_name": "POOL SCORE",
+  "description": "Gestion de billard anglais",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b1712",
+  "theme_color": "#10291f",
+  "icons": [
+    {
+      "src": "./pool-score-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
