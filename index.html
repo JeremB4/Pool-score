@@ -13,49 +13,71 @@
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;padding:10px;background:#0b1712;color:white;font-family:-apple-system,sans-serif}
+body{margin:0;padding:6px;background:#0b1712;color:white;font-family:-apple-system,sans-serif}
 main{max-width:550px;margin:auto}
-header{text-align:center;padding:5px}
-h1{color:#e4bd59;letter-spacing:4px;margin:5px}
-h3{color:#e4bd59;font-size:12px;letter-spacing:1px;margin:5px 0 10px}
-.card{background:#172c21;border:1px solid #34503c;border-radius:13px;padding:12px;margin:9px 0}
-input{background:#0d1e16;color:white;border:1px solid #49634e;border-radius:8px;padding:9px;width:100%;font-size:16px;text-align:center}
-label,small,.hint{color:#a9b8ae;font-size:11px}
-.players{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.player{text-align:center;background:#20372b;border-radius:11px;padding:10px;min-width:0}
-.score{font-size:56px;font-weight:bold;margin:5px}
-.controls{display:flex;gap:7px}
-.controls button{flex:1;font-size:25px;font-weight:bold;padding:6px;border:0;border-radius:8px}
+header{text-align:center;padding:2px}
+h1{color:#e4bd59;letter-spacing:4px;margin:3px;font-size:23px}
+h3{color:#e4bd59;font-size:11px;letter-spacing:1px;margin:4px 0 8px}
+.card{background:#172c21;border:1px solid #34503c;border-radius:13px;padding:9px;margin:6px 0}
+input{background:#0d1e16;color:white;border:1px solid #49634e;border-radius:7px;padding:7px;width:100%;font-size:15px;text-align:center}
+label,small,.hint{color:#a9b8ae;font-size:10px}
+.players{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.player{text-align:center;background:#20372b;border-radius:10px;padding:7px;min-width:0}
+.score{font-size:43px;font-weight:bold;margin:2px}
+.controls{display:flex;gap:5px}
+.controls button{flex:1;font-size:23px;font-weight:bold;padding:3px;border:0;border-radius:7px}
 .plus{background:#2d7952;color:white}
 .minus{background:#a9323b;color:white}
 button:disabled{opacity:.35}
-.stat{background:#13251b;border-radius:8px;padding:6px;margin-top:7px}
-.stat-title{font-size:10px;color:#e4bd59;margin-bottom:4px}
+.stat{background:#13251b;border-radius:7px;padding:4px;margin-top:5px}
+.stat-title{font-size:9px;color:#e4bd59;margin-bottom:3px}
 .stat-row{display:flex;align-items:center;justify-content:space-between;gap:4px}
-.stat-row strong{font-size:17px}
-.stat-row button{border:0;border-radius:7px;width:34px;height:30px;font-size:20px;font-weight:bold}
-.extension{width:100%;margin-top:8px;padding:9px 5px;border:0;border-radius:8px;font-size:11px;font-weight:bold;background:#2d7952;color:white}
+.stat-row strong{font-size:15px}
+.stat-row button{border:0;border-radius:6px;width:30px;height:26px;font-size:18px;font-weight:bold}
+.extension{width:100%;margin-top:6px;padding:7px 3px;border:0;border-radius:7px;font-size:10px;font-weight:bold;background:#2d7952;color:white}
 .extension.used{background:#a9323b;color:white}
-.timers{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.timer{background:#0d1e16;padding:10px;border-radius:10px;text-align:center}
-.time{font-size:30px;font-weight:bold;margin:7px 0;font-variant-numeric:tabular-nums}
-.action{background:#2d7952;color:white;border:0;border-radius:8px;padding:11px;font-size:14px;font-weight:bold}
+.settings{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}
+.setting label{display:block;margin-bottom:3px}
+.match-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:7px}
+.timers{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:7px}
+.timer{background:#0d1e16;padding:7px;border-radius:9px;text-align:center;min-width:0}
+.time{font-size:25px;font-weight:bold;margin:3px 0;font-variant-numeric:tabular-nums}
+.timer label{display:block}
+.action{background:#2d7952;color:white;border:0;border-radius:7px;padding:9px 5px;font-size:12px;font-weight:bold}
 .gold{background:#d9ad32;color:#172117}
 .gray{background:#34483a;color:white}
-.full{width:100%;margin-top:7px}
-.nav{display:flex;gap:7px;margin:8px 0}
-.nav button{flex:1;background:#20372b;color:white;border:0;border-radius:8px;padding:10px}
+.full{width:100%;margin-top:5px}
+.nav{display:flex;gap:6px;margin:6px 0}
+.nav button{flex:1;background:#20372b;color:white;border:0;border-radius:8px;padding:9px;font-size:12px}
 .hidden{display:none!important}
 .row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #ffffff20;font-size:13px}
 .row-info{flex:1;min-width:0}
 .delete{background:#a9323b;color:white;border:0;border-radius:7px;padding:8px;font-size:11px}
 .rank{display:flex;justify-content:space-between;padding:11px;border-bottom:1px solid #ffffff20;gap:8px}
 .rank b{color:#e4bd59}
-.hint{line-height:1.4}
+.hint{line-height:1.35;margin:6px 0 0}
+.section-line{border-top:1px solid #ffffff20;margin-top:9px;padding-top:7px}
 #modal{position:fixed;inset:0;background:#000b;display:flex;align-items:center;justify-content:center;padding:20px;z-index:10}
 .modal-box{background:#172c21;border:1px solid #d9ad32;border-radius:16px;padding:22px;width:100%;max-width:350px;text-align:center}
 .modal-box h2{color:#e4bd59;font-size:20px}
 .modal-box p{line-height:1.5}
+@media(max-height:720px){
+body{padding:3px}
+header{padding:0}
+h1{font-size:20px}
+.card{padding:7px;margin:4px 0}
+.player{padding:5px}
+.score{font-size:38px}
+.stat{margin-top:4px;padding:3px}
+.stat-row button{height:23px}
+.extension{padding:6px 2px}
+.timer{padding:5px}
+.time{font-size:22px}
+.action{padding:7px 4px}
+.full{margin-top:4px}
+.nav{margin:4px 0}
+.nav button{padding:7px}
+}
 </style>
 </head>
 
@@ -70,17 +92,21 @@ button:disabled{opacity:.35}
 
 <section id="game">
 <div class="card">
+
 <h3>RENCONTRE</h3>
+
 <div class="players">
 
 <div class="player">
 <label>JOUEUR 1</label>
 <input id="p1" value="Joueur 1">
 <div class="score" id="s1">0</div>
+
 <div class="controls">
 <button class="minus" id="m1" disabled>−</button>
 <button class="plus" id="a1" disabled>+</button>
 </div>
+
 <div class="stat">
 <div class="stat-title">CASSE FERME</div>
 <div class="stat-row">
@@ -89,6 +115,7 @@ button:disabled{opacity:.35}
 <button class="plus" id="ca1" disabled>+</button>
 </div>
 </div>
+
 <div class="stat">
 <div class="stat-title">REPRISE FERME</div>
 <div class="stat-row">
@@ -97,6 +124,7 @@ button:disabled{opacity:.35}
 <button class="plus" id="ra1" disabled>+</button>
 </div>
 </div>
+
 <button class="extension" id="ext1" disabled>EXTENSION DISPONIBLE</button>
 </div>
 
@@ -104,10 +132,12 @@ button:disabled{opacity:.35}
 <label>JOUEUR 2</label>
 <input id="p2" value="Joueur 2">
 <div class="score" id="s2">0</div>
+
 <div class="controls">
 <button class="minus" id="m2" disabled>−</button>
 <button class="plus" id="a2" disabled>+</button>
 </div>
+
 <div class="stat">
 <div class="stat-title">CASSE FERME</div>
 <div class="stat-row">
@@ -116,6 +146,7 @@ button:disabled{opacity:.35}
 <button class="plus" id="ca2" disabled>+</button>
 </div>
 </div>
+
 <div class="stat">
 <div class="stat-title">REPRISE FERME</div>
 <div class="stat-row">
@@ -124,27 +155,38 @@ button:disabled{opacity:.35}
 <button class="plus" id="ra2" disabled>+</button>
 </div>
 </div>
+
 <button class="extension" id="ext2" disabled>EXTENSION DISPONIBLE</button>
 </div>
+
 </div>
 
-<label>Manches à gagner</label>
+<div class="settings">
+<div class="setting">
+<label>MANCHES À GAGNER</label>
 <input id="target" type="number" min="1" value="3">
-
-<button class="action full" id="start">DÉMARRER LA RENCONTRE</button>
-<button class="action gray full" id="reset">NOUVELLE RENCONTRE</button>
-<p class="hint" id="status">Entre les noms puis démarre la rencontre.</p>
+</div>
+<div class="setting">
+<label>DURÉE MATCH (MINUTES)</label>
+<input id="totalSet" type="number" min="1" value="45">
+</div>
 </div>
 
-<div class="card">
+<div class="match-actions">
+<button class="action" id="start">DÉMARRER</button>
+<button class="action gray" id="reset">NOUVELLE RENCONTRE</button>
+</div>
+
+<p class="hint" id="status">Entre les noms puis démarre la rencontre.</p>
+
+<div class="section-line">
 <h3>CHRONOMÈTRES</h3>
+
 <div class="timers">
 
 <div class="timer">
 <label>TEMPS TOTAL DU MATCH</label>
 <div class="time" id="total">45:00</div>
-<label>Durée en minutes</label>
-<input id="totalSet" type="number" min="1" value="45">
 <button class="action full" id="totalBtn">Démarrer</button>
 <button class="action gray full" id="totalReset">Réinitialiser</button>
 </div>
@@ -157,8 +199,11 @@ button:disabled{opacity:.35}
 <button class="action gold full" id="newShot">NOUVEAU COUP</button>
 <button class="action gray full" id="shotPause">Pause</button>
 </div>
+
 </div>
 <p class="hint">Sonnerie et vibration à la fin, selon les possibilités de l'iPhone.</p>
+</div>
+
 </div>
 </section>
 
@@ -181,6 +226,7 @@ button:disabled{opacity:.35}
 <p class="hint">Nombre de rencontres gagnées.</p>
 <div id="generalList"></div>
 </div>
+
 <div class="card">
 <h3>CLASSEMENT DES FERMES</h3>
 <p class="hint">Casses fermes et reprises fermes cumulées.</p>
@@ -216,31 +262,57 @@ function fmt(v){
 v=Math.max(0,Math.ceil(v));
 return String(Math.floor(v/60)).padStart(2,'0')+':'+String(v%60).padStart(2,'0');
 }
-function goal(){return Math.max(1,Number($('target').value)||1)}
-function save(){localStorage.setItem('poolHistory',JSON.stringify(history))}
-function names(){return [$('p1').value.trim()||'Joueur 1',$('p2').value.trim()||'Joueur 2']}
+
+function goal(){
+return Math.max(1,Number($('target').value)||1);
+}
+
+function save(){
+localStorage.setItem('poolHistory',JSON.stringify(history));
+}
+
+function names(){
+return [
+$('p1').value.trim()||'Joueur 1',
+$('p2').value.trim()||'Joueur 2'
+];
+}
 
 function render(){
-$('s1').textContent=wins[0];$('s2').textContent=wins[1];
-$('c1').textContent=casses[0];$('c2').textContent=casses[1];
-$('r1').textContent=reprises[0];$('r2').textContent=reprises[1];
-$('total').textContent=fmt(total);$('shot').textContent=fmt(shot);
+$('s1').textContent=wins[0];
+$('s2').textContent=wins[1];
+$('c1').textContent=casses[0];
+$('c2').textContent=casses[1];
+$('r1').textContent=reprises[0];
+$('r2').textContent=reprises[1];
+
+$('total').textContent=fmt(total);
+$('shot').textContent=fmt(shot);
 $('totalBtn').textContent=totalRun?'Pause':'Démarrer';
 $('shotPause').textContent=shotRun?'Pause':'Reprendre';
 
-['m1','m2','a1','a2','cm1','cm2','ca1','ca2','rm1','rm2','ra1','ra2'].forEach(id=>{
+[
+'m1','m2','a1','a2',
+'cm1','cm2','ca1','ca2',
+'rm1','rm2','ra1','ra2'
+].forEach(id=>{
 $(id).disabled=!started||finished||pendingWinner!==null;
 });
+
 ['cm1','cm2'].forEach((id,i)=>{
 $(id).disabled=!started||finished||pendingWinner!==null||casses[i]===0;
 });
+
 ['rm1','rm2'].forEach((id,i)=>{
 $(id).disabled=!started||finished||pendingWinner!==null||reprises[i]===0;
 });
 
 for(let i=0;i<2;i++){
 let button=$('ext'+(i+1));
-button.textContent=extensionsUsed[i]?'EXTENSION UTILISÉE ✓':'EXTENSION DISPONIBLE';
+button.textContent=extensionsUsed[i]
+?'EXTENSION UTILISÉE ✓'
+:'EXTENSION DISPONIBLE';
+
 button.classList.toggle('used',extensionsUsed[i]);
 button.disabled=!started||finished||pendingWinner!==null||extensionsUsed[i];
 }
@@ -250,29 +322,56 @@ function alertEnd(){
 try{
 let C=window.AudioContext||window.webkitAudioContext;
 if(C){
-let c=new C(),o=c.createOscillator(),g=c.createGain();
-o.connect(g);g.connect(c.destination);
-o.frequency.value=880;g.gain.value=.15;
-o.start();o.stop(c.currentTime+.6);
+let c=new C();
+let o=c.createOscillator();
+let g=c.createGain();
+o.connect(g);
+g.connect(c.destination);
+o.frequency.value=880;
+g.gain.value=.15;
+o.start();
+o.stop(c.currentTime+.6);
 o.onended=()=>c.close();
 }
 }catch(e){}
-if(navigator.vibrate)navigator.vibrate([250,120,250,120,450]);
+
+if(navigator.vibrate){
+navigator.vibrate([250,120,250,120,450]);
+}
 }
 
 function checkWinner(){
 let winner=wins.findIndex(v=>v>=goal());
+
 if(winner!==-1&&!finished&&pendingWinner===null){
 pendingWinner=winner;
-totalRun=false;shotRun=false;
-$('modalText').textContent=matchNames[winner]+' a atteint '+wins[winner]+' manche(s).';
+totalRun=false;
+shotRun=false;
+
+$('modalText').textContent=
+matchNames[winner]+' a atteint '+wins[winner]+' manche(s).';
+
 $('modal').classList.remove('hidden');
 render();
+return true;
+}
+return false;
+}
+
+/* Une nouvelle manche donne une extension à chaque joueur.
+   Cette fonction est appelée après chaque point positif,
+   qu'il provienne du score classique ou d'une ferme. */
+function newFrameIfMatchContinues(){
+let matchEnded=checkWinner();
+
+if(!matchEnded){
+extensionsUsed=[false,false];
 }
 }
 
 function finishMatch(){
 if(pendingWinner===null)return;
+
 let winner=pendingWinner;
 pendingWinner=null;
 finished=true;
@@ -287,13 +386,18 @@ score:wins.slice(),
 casses:casses.slice(),
 reprises:reprises.slice()
 });
+
 history=history.slice(0,200);
 save();
 
 $('modal').classList.add('hidden');
-$('status').textContent='🏆 '+matchNames[winner]+' remporte la rencontre ! Résultat enregistré.';
+$('status').textContent=
+'🏆 '+matchNames[winner]+' remporte la rencontre ! Résultat enregistré.';
+
 alertEnd();
-render();renderHistory();renderRanking();
+render();
+renderHistory();
+renderRanking();
 }
 
 $('validate').onclick=finishMatch;
@@ -301,42 +405,54 @@ $('validate').onclick=finishMatch;
 $('correct').onclick=()=>{
 pendingWinner=null;
 $('modal').classList.add('hidden');
-$('status').textContent='Tu peux maintenant corriger le score avec les boutons + et −.';
+$('status').textContent=
+'Tu peux maintenant corriger le score avec les boutons + et −.';
 render();
 };
 
 function changeScore(p,a){
 if(!started||finished||pendingWinner!==null)return;
+
 wins[p]=Math.max(0,wins[p]+a);
 
 if(a>0){
-checkWinner();
-// Si la rencontre continue, une nouvelle manche commence.
-// Les deux joueurs récupèrent alors leur extension.
-if(pendingWinner===null){
-extensionsUsed=[false,false];
-}
+newFrameIfMatchContinues();
 }
 
-$('status').textContent='Rencontre en cours : '+wins[0]+' - '+wins[1]+'.';
+$('status').textContent=
+'Rencontre en cours : '+wins[0]+' - '+wins[1]+'.';
+
 render();
 }
 
 function changeFerme(p,type,a){
 if(!started||finished||pendingWinner!==null)return;
+
 let arr=type==='casse'?casses:reprises;
+
 if(a<0&&arr[p]===0)return;
+
 arr[p]=Math.max(0,arr[p]+a);
 wins[p]=Math.max(0,wins[p]+a);
-$('status').textContent='Rencontre en cours : '+wins[0]+' - '+wins[1]+'.';
-checkWinner();
+
+if(a>0){
+newFrameIfMatchContinues();
+}
+
+$('status').textContent=
+'Rencontre en cours : '+wins[0]+' - '+wins[1]+'.';
+
 render();
 }
 
 function useExtension(p){
 if(!started||finished||pendingWinner!==null||extensionsUsed[p])return;
+
 extensionsUsed[p]=true;
-$('status').textContent=matchNames[p]+' a utilisé son extension pour cette manche.';
+
+$('status').textContent=
+matchNames[p]+' a utilisé son extension pour cette manche.';
+
 render();
 }
 
@@ -347,10 +463,12 @@ $('a1').onclick=()=>changeScore(0,1);
 $('m1').onclick=()=>changeScore(0,-1);
 $('a2').onclick=()=>changeScore(1,1);
 $('m2').onclick=()=>changeScore(1,-1);
+
 $('ca1').onclick=()=>changeFerme(0,'casse',1);
 $('cm1').onclick=()=>changeFerme(0,'casse',-1);
 $('ca2').onclick=()=>changeFerme(1,'casse',1);
 $('cm2').onclick=()=>changeFerme(1,'casse',-1);
+
 $('ra1').onclick=()=>changeFerme(0,'reprise',1);
 $('rm1').onclick=()=>changeFerme(0,'reprise',-1);
 $('ra2').onclick=()=>changeFerme(1,'reprise',1);
@@ -361,112 +479,226 @@ if(started&&!finished){
 alert('Une rencontre est déjà en cours.');
 return;
 }
-wins=[0,0];casses=[0,0];reprises=[0,0];
+
+wins=[0,0];
+casses=[0,0];
+reprises=[0,0];
 extensionsUsed=[false,false];
-matchNames=names();started=true;finished=false;pendingWinner=null;recordId=null;
+
+matchNames=names();
+started=true;
+finished=false;
+pendingWinner=null;
+recordId=null;
+
 total=Math.max(1,Number($('totalSet').value)||45)*60;
 shot=Math.max(1,Number($('shotSet').value)||30);
-totalRun=true;shotRun=false;last=Date.now();
+
+totalRun=true;
+shotRun=false;
+last=Date.now();
+
 $('status').textContent='Rencontre démarrée !';
 render();
 };
 
 $('reset').onclick=()=>{
 if(started&&!finished&&!confirm('Abandonner cette rencontre ?'))return;
+
 $('modal').classList.add('hidden');
-wins=[0,0];casses=[0,0];reprises=[0,0];
+
+wins=[0,0];
+casses=[0,0];
+reprises=[0,0];
 extensionsUsed=[false,false];
-started=false;finished=false;pendingWinner=null;recordId=null;
-totalRun=false;shotRun=false;
+
+started=false;
+finished=false;
+pendingWinner=null;
+recordId=null;
+
+totalRun=false;
+shotRun=false;
+
 total=Math.max(1,Number($('totalSet').value)||45)*60;
 shot=Math.max(1,Number($('shotSet').value)||30);
+
 $('status').textContent='Entre les noms puis démarre la rencontre.';
 render();
 };
 
 $('totalBtn').onclick=()=>{
-if(!started){alert('Démarre d’abord la rencontre.');return}
+if(!started){
+alert('Démarre d’abord la rencontre.');
+return;
+}
 if(finished)return;
-totalRun=!totalRun;last=Date.now();render();
+
+totalRun=!totalRun;
+last=Date.now();
+render();
 };
+
 $('totalReset').onclick=()=>{
 totalRun=false;
 total=Math.max(1,Number($('totalSet').value)||45)*60;
 render();
 };
+
 $('newShot').onclick=()=>{
 if(!started||finished){
 alert('Démarre une rencontre en cours.');
 return;
 }
+
 shot=Math.max(1,Number($('shotSet').value)||30);
-shotRun=true;last=Date.now();render();
+shotRun=true;
+last=Date.now();
+render();
 };
+
 $('shotPause').onclick=()=>{
 if(!started||finished)return;
-shotRun=!shotRun;last=Date.now();render();
+
+shotRun=!shotRun;
+last=Date.now();
+render();
 };
 
 function esc(s){
-return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+return String(s).replace(/[&<>"']/g,c=>({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#39;'
+}[c]));
 }
 
 function deleteMatch(i){
-let h=history[i];if(!h)return;
-if(!confirm('Supprimer définitivement cette rencontre ?\n'+h.players.join(' vs ')+'\nElle sera aussi retirée des classements.'))return;
-history.splice(i,1);save();renderHistory();renderRanking();
+let h=history[i];
+if(!h)return;
+
+if(!confirm(
+'Supprimer définitivement cette rencontre ?\n'+
+h.players.join(' vs ')+
+'\nElle sera aussi retirée des classements.'
+))return;
+
+history.splice(i,1);
+save();
+renderHistory();
+renderRanking();
 }
 
 function renderHistory(){
-$('historyList').innerHTML=history.length?history.map((h,i)=>
-'<div class="row"><div class="row-info"><strong>'+esc((h.players||[]).join(' vs '))+'</strong><br><small>'+esc(h.date||'')+'</small><br>'+esc(h.winner||'')+' — '+(h.score||[0,0]).join(' - ')+'<br><small>Fermes : '+((h.casses[0]+h.reprises[0])+' - '+(h.casses[1]+h.reprises[1]))+'</small></div><button class="delete" data-del="'+i+'">🗑️</button></div>'
-).join(''):'Aucune rencontre terminée.';
-document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>deleteMatch(Number(b.dataset.del)));
+$('historyList').innerHTML=history.length
+?history.map((h,i)=>
+'<div class="row"><div class="row-info"><strong>'+
+esc((h.players||[]).join(' vs '))+
+'</strong><br><small>'+esc(h.date||'')+
+'</small><br>'+esc(h.winner||'')+
+' — '+(h.score||[0,0]).join(' - ')+
+'<br><small>Fermes : '+
+((h.casses[0]+h.reprises[0])+' - '+
+(h.casses[1]+h.reprises[1]))+
+'</small></div><button class="delete" data-del="'+i+
+'">🗑️</button></div>'
+).join('')
+:'Aucune rencontre terminée.';
+
+document.querySelectorAll('[data-del]').forEach(b=>{
+b.onclick=()=>deleteMatch(Number(b.dataset.del));
+});
 }
 
 function renderRanking(){
 let stats={};
+
 history.forEach(h=>{
 (h.players||[]).forEach((n,i)=>{
 stats[n]??={wins:0,played:0,fermes:0};
 stats[n].played++;
 stats[n].fermes+=(h.casses[i]||0)+(h.reprises[i]||0);
 });
+
 if(stats[h.winner])stats[h.winner].wins++;
 });
-let general=Object.entries(stats).sort((a,b)=>b[1].wins-a[1].wins||b[1].played-a[1].played);
-let fermes=Object.entries(stats).sort((a,b)=>b[1].fermes-a[1].fermes);
-$('generalList').innerHTML=general.length?general.map((x,i)=>'<div class="rank"><span>'+(i+1)+'. '+esc(x[0])+'<br><small>'+x[1].played+' rencontre(s)</small></span><b>'+x[1].wins+' victoire(s)</b></div>').join(''):'Pas encore de résultat.';
-$('fermeList').innerHTML=fermes.length?fermes.map((x,i)=>'<div class="rank"><span>'+(i+1)+'. '+esc(x[0])+'</span><b>'+x[1].fermes+'</b></div>').join(''):'Pas encore de résultat.';
+
+let general=Object.entries(stats).sort((a,b)=>
+b[1].wins-a[1].wins||b[1].played-a[1].played
+);
+
+let fermes=Object.entries(stats).sort((a,b)=>
+b[1].fermes-a[1].fermes
+);
+
+$('generalList').innerHTML=general.length
+?general.map((x,i)=>
+'<div class="rank"><span>'+(i+1)+'. '+
+esc(x[0])+'<br><small>'+x[1].played+
+' rencontre(s)</small></span><b>'+
+x[1].wins+' victoire(s)</b></div>'
+).join('')
+:'Pas encore de résultat.';
+
+$('fermeList').innerHTML=fermes.length
+?fermes.map((x,i)=>
+'<div class="rank"><span>'+(i+1)+'. '+
+esc(x[0])+'</span><b>'+x[1].fermes+'</b></div>'
+).join('')
+:'Pas encore de résultat.';
 }
 
 function showPage(page){
-['game','history','ranking'].forEach(id=>$(id).classList.toggle('hidden',id!==page));
+['game','history','ranking'].forEach(id=>{
+$(id).classList.toggle('hidden',id!==page);
+});
 }
+
 $('showGame').onclick=()=>showPage('game');
-$('showHistory').onclick=()=>{renderHistory();showPage('history')};
-$('showRanking').onclick=()=>{renderRanking();showPage('ranking')};
+
+$('showHistory').onclick=()=>{
+renderHistory();
+showPage('history');
+};
+
+$('showRanking').onclick=()=>{
+renderRanking();
+showPage('ranking');
+};
 
 setInterval(()=>{
-let now=Date.now(),dt=(now-last)/1000;last=now;
+let now=Date.now();
+let dt=(now-last)/1000;
+last=now;
+
 if(totalRun){
 total=Math.max(0,total-dt);
+
 if(total===0){
-totalRun=false;alertEnd();
+totalRun=false;
+alertEnd();
 $('status').textContent='Temps total écoulé !';
 }
 }
+
 if(shotRun){
 shot=Math.max(0,shot-dt);
+
 if(shot===0){
-shotRun=false;alertEnd();
+shotRun=false;
+alertEnd();
 $('status').textContent='Temps du coup écoulé !';
 }
 }
+
 render();
 },250);
 
-render();renderHistory();renderRanking();
+render();
+renderHistory();
+renderRanking();
 
 if('serviceWorker' in navigator){
 window.addEventListener('load',()=>{
