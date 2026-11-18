@@ -80,7 +80,6 @@ button:disabled{opacity:.35;cursor:default}
 <section id="game">
 <div class="card">
 <h3 id="gameTitle">RENCONTRE EN COURS</h3>
-<div id="turnBanner" class="turn-banner hidden"></div>
 <div class="players" id="players"></div>
 
 <div class="actions">
@@ -91,11 +90,6 @@ button:disabled{opacity:.35;cursor:default}
 <div class="small-actions">
  <button class="gray" id="shotPause">PAUSE DU COUP</button>
  <button class="gray" id="totalReset">RÉINITIALISER LE TEMPS</button>
-</div>
-
-<div id="challengeActions" class="small-actions hidden">
- <button class="gold" id="nextPlayer">JOUEUR SUIVANT →</button>
- <button class="gray" id="backPlayer">← JOUEUR PRÉCÉDENT</button>
 </div>
 
 <details class="settings" id="settings">
@@ -171,7 +165,7 @@ function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;',
 function setupNames(){
  const n=$('mode').value==='duel'?2:count();
  $('countSetting').classList.toggle('hidden',$('mode').value==='duel');
- $('modeHint').textContent=$('mode').value==='duel'?'En 1 contre 1, l’objectif correspond au nombre de manches à gagner.':'En Challenge, le premier joueur qui atteint l’objectif de points gagne. Le tour change avec le bouton Joueur suivant.';
+ $('modeHint').textContent=$('mode').value==='duel'?'En 1 contre 1, l’objectif correspond au nombre de manches à gagner.':'En Challenge, ajoute les points directement au joueur concerné. Le premier à atteindre l’objectif gagne.';
  $('nameSetup').innerHTML=Array.from({length:n},(_,i)=>'<input id="setupName'+i+'" maxlength="22" placeholder="Nom du joueur '+(i+1)+'" value="'+esc(playerNames[i]||DEFAULT_NAMES[i])+'">').join('');
 }
 function readSetupNames(){
@@ -182,11 +176,9 @@ function isChallenge(){return mode==='challenge';}
 function canEdit(){return started&&!finished&&pendingWinner===null;}
 function render(){
  $('gameTitle').textContent=isChallenge()?'CHALLENGE EN COURS':'RENCONTRE EN COURS';
- $('turnBanner').classList.toggle('hidden',!isChallenge()||!started);
- if(isChallenge()&&started)$('turnBanner').textContent='🎱 AU TOUR DE : '+playerNames[currentPlayer];
  $('players').style.gridTemplateColumns=playerNames.length===2?'repeat(2,minmax(0,1fr))':'repeat(2,minmax(0,1fr))';
  $('players').innerHTML=playerNames.map((name,i)=>{
-  const active=isChallenge()&&started&&i===currentPlayer;
+   const active=false;
   return `<div class="player ${active?'active':''}">
    ${started?`<div class="player-name">${esc(name)}</div>`:`<input id="editName${i}" value="${esc(name)}" aria-label="Nom du joueur ${i+1}">`}
    <div class="turn-tag">${active?'● À TON TOUR':''}</div>
@@ -215,8 +207,6 @@ function render(){
  $('startPause').disabled=finished;
  $('newShot').disabled=!started||finished||pendingWinner!==null;
  $('shotPause').disabled=!started||finished||pendingWinner!==null;
- $('challengeActions').classList.toggle('hidden',!isChallenge()||!started);
- $('nextPlayer').disabled=!canEdit();$('backPlayer').disabled=!canEdit();
  document.querySelectorAll('[data-score]').forEach(b=>b.onclick=()=>changeScore(Number(b.dataset.score),Number(b.dataset.delta)));
  document.querySelectorAll('[data-ferme]').forEach(b=>b.onclick=()=>changeFerme(Number(b.dataset.player),b.dataset.ferme,Number(b.dataset.delta)));
  document.querySelectorAll('[data-extension]').forEach(b=>b.onclick=()=>useExtension(Number(b.dataset.extension)));
@@ -237,7 +227,6 @@ function checkWinner(){
 function newFrameIfMatchContinues(){if(!checkWinner()&&!isChallenge())extensionsUsed=[false,false];}
 function changeScore(p,delta){
  if(!canEdit())return;
- if(isChallenge()&&p!==currentPlayer){$('status').textContent='C’est le tour de '+playerNames[currentPlayer]+'. Utilise « Joueur suivant » pour changer.';return;}
  scores[p]=Math.max(0,scores[p]+delta);
  if(delta>0)newFrameIfMatchContinues();
  $('status').textContent=isChallenge()?playerNames[p]+' : '+scores[p]+' point(s).':'Rencontre en cours : '+scores[0]+' - '+scores[1]+'.';
@@ -245,7 +234,6 @@ function changeScore(p,delta){
 }
 function changeFerme(p,type,delta){
  if(!canEdit())return;
- if(isChallenge()&&p!==currentPlayer){$('status').textContent='C’est le tour de '+playerNames[currentPlayer]+'.';return;}
  const arr=type==='casse'?casses:reprises;
  if(delta<0&&arr[p]===0)return;
  arr[p]=Math.max(0,arr[p]+delta);scores[p]=Math.max(0,scores[p]+delta);
@@ -293,8 +281,6 @@ $('stopMatch').onclick=()=>{
 $('newShot').onclick=()=>{if(!canEdit())return;shot=Math.max(1,Number($('shotSet').value)||30);shotRun=true;last=Date.now();$('status').textContent='Nouveau coup : chronomètre lancé.';render();};
 $('shotPause').onclick=()=>{if(!canEdit())return;shotRun=!shotRun;last=Date.now();$('status').textContent=shotRun?'Chronomètre du coup repris.':'Chronomètre du coup en pause.';render();};
 $('totalReset').onclick=()=>{totalRun=false;total=Math.max(1,Number($('totalSet').value)||45)*60;last=Date.now();render();};
-$('nextPlayer').onclick=()=>{if(!canEdit())return;currentPlayer=(currentPlayer+1)%playerNames.length;$('status').textContent='Au tour de '+playerNames[currentPlayer]+'.';render();};
-$('backPlayer').onclick=()=>{if(!canEdit())return;currentPlayer=(currentPlayer-1+playerNames.length)%playerNames.length;$('status').textContent='Au tour de '+playerNames[currentPlayer]+'.';render();};
 
 function deleteMatch(i){
  const h=history[i];if(!h)return;
