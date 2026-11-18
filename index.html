@@ -10,291 +10,107 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./pool-score-icon.png">
 <title>POOL SCORE</title>
-
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;padding:7px;background:#071c13;color:#f7f4e9;
- font-family:-apple-system,BlinkMacSystemFont,sans-serif
-}
-main{max-width:600px;margin:auto}
+body{margin:0;padding:7px;background:#071c13;color:#f7f4e9;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+main{max-width:700px;margin:auto}
 header{text-align:center;padding:2px 0 8px}
-h1{
- color:#e9bd50;letter-spacing:3px;margin:0;
- font-family:Georgia,serif;font-size:27px
-}
+h1{color:#e9bd50;letter-spacing:3px;margin:0;font-family:Georgia,serif;font-size:27px}
 header small{color:#c5c9b9;font-size:10px;letter-spacing:2px}
-.card{
- background:linear-gradient(145deg,#173b2a,#10291e);
- border:1px solid #496d4b;border-radius:17px;
- padding:9px;margin:5px 0
-}
-h3{
- color:#e9bd50;font-size:12px;letter-spacing:1.5px;
- text-align:center;margin:2px 0 9px
-}
-.players{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.player{
- min-width:0;text-align:center;background:#183c2b;
- border:1px solid #426449;border-radius:13px;padding:7px
-}
-.player input{
- width:100%;min-width:0;text-align:center;
- background:#10291e;color:white;border:0;border-radius:7px;
- padding:7px 3px;font-size:14px;font-weight:bold
-}
+.card{background:linear-gradient(145deg,#173b2a,#10291e);border:1px solid #496d4b;border-radius:17px;padding:9px;margin:5px 0}
+h3{color:#e9bd50;font-size:12px;letter-spacing:1.5px;text-align:center;margin:2px 0 9px}
+.players{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.player{min-width:0;text-align:center;background:#183c2b;border:1px solid #426449;border-radius:13px;padding:7px}
+.player.active{border:2px solid #e9bd50;box-shadow:0 0 0 1px #e9bd5040}
+.player input{width:100%;min-width:0;text-align:center;background:#10291e;color:white;border:0;border-radius:7px;padding:7px 3px;font-size:14px;font-weight:bold}
+.player-name{font-size:14px;font-weight:bold;overflow-wrap:anywhere;color:#fff}
+.turn-tag{font-size:9px;color:#e9bd50;font-weight:bold;min-height:14px;margin-top:3px}
 .score{font-size:clamp(43px,12vw,65px);font-weight:800;line-height:1.1;margin:5px 0}
 .controls{display:flex;gap:6px}
+.controls button{flex:1;border:0;border-radius:9px;padding:5px 2px;font-size:27px;font-weight:bold;color:white;min-height:39px}
 button{font-family:inherit;cursor:pointer}
-.controls button{
- flex:1;border:0;border-radius:9px;padding:5px 2px;
- font-size:27px;font-weight:bold;color:white;min-height:39px
-}
-.plus{background:#26814b}
-.minus{background:#ae3936}
+.plus{background:#26814b}.minus{background:#ae3936}
 button:disabled{opacity:.35;cursor:default}
 .timer-pair{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px}
-.timer-mini{
- background:#071f15;border:1px solid #31583c;
- border-radius:9px;padding:6px 2px;min-width:0
-}
-.timer-mini label{
- display:block;color:#c6cbbd;font-size:9px;
- line-height:1.2;min-height:22px
-}
-.timer-mini strong{
- display:block;font-size:clamp(16px,4.7vw,21px);
- font-variant-numeric:tabular-nums;white-space:nowrap
-}
-.extension{
- width:100%;margin-top:7px;padding:8px 2px;
- border:1px solid #4bca65;border-radius:20px;
- background:#19813e;color:white;font-size:10px;font-weight:bold
-}
+.timer-mini{background:#071f15;border:1px solid #31583c;border-radius:9px;padding:6px 2px;min-width:0}
+.timer-mini label{display:block;color:#c6cbbd;font-size:9px;line-height:1.2;min-height:22px}
+.timer-mini strong{display:block;font-size:clamp(16px,4.7vw,21px);font-variant-numeric:tabular-nums;white-space:nowrap}
+.extension{width:100%;margin-top:7px;padding:8px 2px;border:1px solid #4bca65;border-radius:20px;background:#19813e;color:white;font-size:10px;font-weight:bold}
 .extension.used{background:#9c302e;border-color:#d45a4e}
-.stat{
- background:#0e291c;border-radius:9px;
- padding:5px 5px;margin-top:6px
-}
-.stat-title{
- color:#e9bd50;font-size:9px;font-weight:bold;
- letter-spacing:.7px;margin-bottom:3px
-}
+.stat{background:#0e291c;border-radius:9px;padding:5px 5px;margin-top:6px}
+.stat-title{color:#e9bd50;font-size:9px;font-weight:bold;letter-spacing:.7px;margin-bottom:3px}
 .stat-row{display:flex;align-items:center;justify-content:space-between;gap:4px}
 .stat-row strong{font-size:19px;min-width:18px}
-.stat-row button{
- width:34px;height:29px;border:0;border-radius:7px;
- color:white;font-size:20px;font-weight:bold
-}
-.actions{
- display:grid;grid-template-columns:1fr 1.2fr 1fr;
- gap:6px;margin-top:9px
-}
-.action{
- border:0;border-radius:9px;padding:10px 3px;
- background:#28794b;color:white;font-size:10px;font-weight:bold;
- min-height:43px
-}
-.gold{background:#e5b63f;color:#102117}
-.gray{background:#344b3b;color:white}
-.red{background:#9f3432;color:white}
-.small-actions{
- display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px
-}
-.small-actions button{
- border:0;border-radius:7px;padding:7px 3px;
- font-size:10px;font-weight:bold
-}
-.settings{
- margin-top:9px;border-top:1px solid #ffffff20;padding-top:7px
-}
-.settings summary{
- color:#e9bd50;font-size:11px;font-weight:bold;
- text-align:center;cursor:pointer;padding:5px
-}
+.stat-row button{width:34px;height:29px;border:0;border-radius:7px;color:white;font-size:20px;font-weight:bold}
+.actions{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:6px;margin-top:9px}
+.action{border:0;border-radius:9px;padding:10px 3px;background:#28794b;color:white;font-size:10px;font-weight:bold;min-height:43px}
+.gold{background:#e5b63f;color:#102117}.gray{background:#344b3b;color:white}.red{background:#9f3432;color:white}
+.small-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
+.small-actions button{border:0;border-radius:7px;padding:7px 3px;font-size:10px;font-weight:bold}
+.settings{margin-top:9px;border-top:1px solid #ffffff20;padding-top:7px}
+.settings summary{color:#e9bd50;font-size:11px;font-weight:bold;text-align:center;cursor:pointer;padding:5px}
 .setting-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:7px}
 .setting label{display:block;color:#c5cabb;font-size:9px;margin-bottom:4px}
-.setting input{
- width:100%;background:#0d2117;color:white;
- border:1px solid #49634e;border-radius:7px;
- padding:7px 3px;text-align:center;font-size:13px
-}
+.setting input,.setting select{width:100%;background:#0d2117;color:white;border:1px solid #49634e;border-radius:7px;padding:7px 3px;text-align:center;font-size:13px}
+.names-setup{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:8px}
+.names-setup input{width:100%;min-width:0;background:#0d2117;color:white;border:1px solid #49634e;border-radius:7px;padding:8px;text-align:center}
+.turn-banner{text-align:center;background:#10291e;border:1px solid #e9bd50;border-radius:10px;padding:9px;margin:8px 0;color:#e9bd50;font-size:13px;font-weight:bold}
 .hint{color:#aebcaf;font-size:10px;line-height:1.35;text-align:center;margin:7px 0 2px}
 .nav{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:7px 0}
-.nav button{
- background:#183b2a;color:#eee;border:1px solid #426449;
- border-radius:9px;padding:10px 3px;font-size:11px;font-weight:bold
-}
+.nav button{background:#183b2a;color:#eee;border:1px solid #426449;border-radius:9px;padding:10px 3px;font-size:11px;font-weight:bold}
 .hidden{display:none!important}
-.row{
- display:flex;justify-content:space-between;align-items:center;
- gap:8px;padding:10px 0;border-bottom:1px solid #ffffff20;font-size:13px
-}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #ffffff20;font-size:13px}
 .row-info{flex:1;min-width:0}
 .delete{background:#a9323b;color:white;border:0;border-radius:7px;padding:8px;font-size:11px}
 .rank{display:flex;justify-content:space-between;padding:11px;border-bottom:1px solid #ffffff20;gap:8px}
 .rank b{color:#e9bd50}
-#modal{
- position:fixed;inset:0;background:#000b;display:flex;
- align-items:center;justify-content:center;padding:20px;z-index:10
-}
-.modal-box{
- background:#173b2a;border:1px solid #e9bd50;
- border-radius:16px;padding:22px;width:100%;max-width:350px;text-align:center
-}
+#modal{position:fixed;inset:0;background:#000b;display:flex;align-items:center;justify-content:center;padding:20px;z-index:10}
+.modal-box{background:#173b2a;border:1px solid #e9bd50;border-radius:16px;padding:22px;width:100%;max-width:350px;text-align:center}
 .modal-box h2{color:#e9bd50;font-size:20px}
 .modal-box p{line-height:1.5;font-size:14px}
 .modal-box button{width:100%;margin-top:7px;padding:12px;border:0;border-radius:8px;font-weight:bold}
-@media(max-width:380px){
- body{padding:4px}
- .card{padding:6px}
- .player{padding:5px}
- .score{font-size:43px}
- .stat-row button{width:29px}
- .timer-mini{padding:5px 1px}
- .timer-mini label{font-size:8px}
- .extension{font-size:9px}
- .action{font-size:9px}
-}
-@media(max-height:740px){
- body{padding:3px}
- header{padding:0 0 4px}
- h1{font-size:22px}
- .card{padding:6px;margin:3px 0}
- h3{margin-bottom:6px}
- .player{padding:5px}
- .score{margin:2px 0;font-size:43px}
- .controls button{min-height:34px;font-size:24px}
- .timer-pair{margin-top:5px}
- .timer-mini{padding:4px 2px}
- .extension{margin-top:5px;padding:6px 2px}
- .stat{margin-top:4px;padding:4px}
- .stat-row button{height:25px}
- .actions{margin-top:6px}
- .action{min-height:38px;padding:7px 2px}
- .small-actions{margin-top:4px}
- .small-actions button{padding:5px 2px}
- .nav{margin:4px 0}
- .nav button{padding:7px 2px}
-}
+@media(max-width:380px){body{padding:4px}.card{padding:6px}.player{padding:5px}.score{font-size:43px}.stat-row button{width:29px}.timer-mini{padding:5px 1px}.timer-mini label{font-size:8px}.extension{font-size:9px}.action{font-size:9px}}
+@media(max-height:740px){body{padding:3px}header{padding:0 0 4px}h1{font-size:22px}.card{padding:6px;margin:3px 0}h3{margin-bottom:6px}.player{padding:5px}.score{margin:2px 0;font-size:43px}.controls button{min-height:34px;font-size:24px}.timer-pair{margin-top:5px}.timer-mini{padding:4px 2px}.extension{margin-top:5px;padding:6px 2px}.stat{margin-top:4px;padding:4px}.stat-row button{height:25px}.actions{margin-top:6px}.action{min-height:38px;padding:7px 2px}.small-actions{margin-top:4px}.small-actions button{padding:5px 2px}.nav{margin:4px 0}.nav button{padding:7px 2px}}
 </style>
 </head>
-
 <body>
 <main>
-
-<header>
- <h1>POOL SCORE</h1>
- <small>BILLARD ANGLAIS</small>
-</header>
+<header><h1>POOL SCORE</h1><small>BILLARD ANGLAIS</small></header>
 
 <section id="game">
 <div class="card">
-
-<h3>RENCONTRE EN COURS</h3>
-
-<div class="players">
-
-<div class="player">
- <input id="p1" value="Joueur 1" aria-label="Nom du joueur 1">
- <div class="score" id="s1">0</div>
-
- <div class="controls">
-  <button class="minus" id="m1" disabled>−</button>
-  <button class="plus" id="a1" disabled>+</button>
- </div>
-
- <div class="timer-pair">
-  <div class="timer-mini">
-   <label>TEMPS MATCH</label>
-   <strong id="total1">45:00</strong>
-  </div>
-  <div class="timer-mini">
-   <label>TEMPS COUP</label>
-   <strong id="shot1">00:30</strong>
-  </div>
- </div>
-
- <button class="extension" id="ext1" disabled>✓ EXTENSION DISPONIBLE</button>
-
- <div class="stat">
-  <div class="stat-title">CASSE FERME</div>
-  <div class="stat-row">
-   <button class="minus" id="cm1" disabled>−</button>
-   <strong id="c1">0</strong>
-   <button class="plus" id="ca1" disabled>+</button>
-  </div>
- </div>
-
- <div class="stat">
-  <div class="stat-title">REPRISE FERME</div>
-  <div class="stat-row">
-   <button class="minus" id="rm1" disabled>−</button>
-   <strong id="r1">0</strong>
-   <button class="plus" id="ra1" disabled>+</button>
-  </div>
- </div>
-</div>
-
-<div class="player">
- <input id="p2" value="Joueur 2" aria-label="Nom du joueur 2">
- <div class="score" id="s2">0</div>
-
- <div class="controls">
-  <button class="minus" id="m2" disabled>−</button>
-  <button class="plus" id="a2" disabled>+</button>
- </div>
-
- <div class="timer-pair">
-  <div class="timer-mini">
-   <label>TEMPS MATCH</label>
-   <strong id="total2">45:00</strong>
-  </div>
-  <div class="timer-mini">
-   <label>TEMPS COUP</label>
-   <strong id="shot2">00:30</strong>
-  </div>
- </div>
-
- <button class="extension" id="ext2" disabled>✓ EXTENSION DISPONIBLE</button>
-
- <div class="stat">
-  <div class="stat-title">CASSE FERME</div>
-  <div class="stat-row">
-   <button class="minus" id="cm2" disabled>−</button>
-   <strong id="c2">0</strong>
-   <button class="plus" id="ca2" disabled>+</button>
-  </div>
- </div>
-
- <div class="stat">
-  <div class="stat-title">REPRISE FERME</div>
-  <div class="stat-row">
-   <button class="minus" id="rm2" disabled>−</button>
-   <strong id="r2">0</strong>
-   <button class="plus" id="ra2" disabled>+</button>
-  </div>
- </div>
-</div>
-
-</div>
+<h3 id="gameTitle">RENCONTRE EN COURS</h3>
+<div id="turnBanner" class="turn-banner hidden"></div>
+<div class="players" id="players"></div>
 
 <div class="actions">
  <button class="action" id="startPause">DÉMARRER</button>
  <button class="action gold" id="newShot">NOUVEAU COUP</button>
  <button class="action red" id="stopMatch">ARRÊTER</button>
 </div>
-
 <div class="small-actions">
  <button class="gray" id="shotPause">PAUSE DU COUP</button>
  <button class="gray" id="totalReset">RÉINITIALISER LE TEMPS</button>
 </div>
 
-<details class="settings">
+<div id="challengeActions" class="small-actions hidden">
+ <button class="gold" id="nextPlayer">JOUEUR SUIVANT →</button>
+ <button class="gray" id="backPlayer">← JOUEUR PRÉCÉDENT</button>
+</div>
+
+<details class="settings" id="settings">
  <summary>⚙ RÉGLAGES DE LA RENCONTRE</summary>
  <div class="setting-grid">
   <div class="setting">
-   <label>MANCHES À GAGNER</label>
+   <label>MODE DE JEU</label>
+   <select id="mode"><option value="duel">1 contre 1</option><option value="challenge">Challenge</option></select>
+  </div>
+  <div class="setting" id="countSetting">
+   <label>NOMBRE DE JOUEURS</label>
+   <input id="playerCount" type="number" min="2" max="8" value="5">
+  </div>
+  <div class="setting">
+   <label>OBJECTIF (POINTS / MANCHES)</label>
    <input id="target" type="number" min="1" value="3">
   </div>
   <div class="setting">
@@ -306,11 +122,11 @@ button:disabled{opacity:.35;cursor:default}
    <input id="shotSet" type="number" min="1" value="30">
   </div>
  </div>
+ <p class="hint" id="modeHint">En 1 contre 1, l’objectif correspond au nombre de manches à gagner.</p>
+ <div id="nameSetup" class="names-setup"></div>
 </details>
-
-<p class="hint" id="status">Entre les noms puis démarre la rencontre.</p>
+<p class="hint" id="status">Choisis le mode, entre les noms puis démarre la rencontre.</p>
 <p class="hint">Sonnerie et vibration à la fin, selon les possibilités de l'iPhone.</p>
-
 </div>
 </section>
 
@@ -320,33 +136,17 @@ button:disabled{opacity:.35;cursor:default}
  <button id="showGame">🎱 Match</button>
 </div>
 
-<section id="history" class="hidden">
- <div class="card">
-  <h3>HISTORIQUE DES RENCONTRES</h3>
-  <div id="historyList"></div>
- </div>
-</section>
-
+<section id="history" class="hidden"><div class="card"><h3>HISTORIQUE DES RENCONTRES</h3><div id="historyList"></div></div></section>
 <section id="ranking" class="hidden">
- <div class="card">
-  <h3>CLASSEMENT GÉNÉRAL</h3>
-  <p class="hint">Nombre de rencontres gagnées.</p>
-  <div id="generalList"></div>
- </div>
- <div class="card">
-  <h3>CLASSEMENT DES FERMES</h3>
-  <p class="hint">Casses fermes et reprises fermes cumulées.</p>
-  <div id="fermeList"></div>
- </div>
+ <div class="card"><h3>CLASSEMENT GÉNÉRAL</h3><p class="hint">Nombre de rencontres gagnées.</p><div id="generalList"></div></div>
+ <div class="card"><h3>CLASSEMENT DES FERMES</h3><p class="hint">Casses fermes et reprises fermes cumulées.</p><div id="fermeList"></div></div>
 </section>
-
 </main>
 
 <div id="modal" class="hidden">
  <div class="modal-box">
   <h2>🏆 Fin de rencontre ?</h2>
-  <p id="modalText"></p>
-  <p>Souhaites-tu valider le résultat ?</p>
+  <p id="modalText"></p><p>Souhaites-tu valider le résultat ?</p>
   <button class="gold" id="validate">VALIDER LA FIN DU MATCH</button>
   <button class="gray" id="correct">CORRIGER LE SCORE</button>
  </div>
@@ -354,422 +154,191 @@ button:disabled{opacity:.35;cursor:default}
 
 <script>
 const $=id=>document.getElementById(id);
+const DEFAULT_NAMES=['Joueur 1','Joueur 2','Joueur 3','Joueur 4','Joueur 5','Joueur 6','Joueur 7','Joueur 8'];
 
-let wins=[0,0],casses=[0,0],reprises=[0,0];
-let extensionsUsed=[false,false];
-let started=false,finished=false,matchNames=[];
-let total=2700,shot=30,totalRun=false,shotRun=false;
-let last=Date.now(),pendingWinner=null;
+let mode='duel',playerNames=['Joueur 1','Joueur 2'];
+let scores=[0,0],casses=[0,0],reprises=[0,0],extensionsUsed=[false,false];
+let currentPlayer=0,started=false,finished=false,total=2700,shot=30,totalRun=false,shotRun=false,last=Date.now(),pendingWinner=null;
+let history=[];
+try{history=JSON.parse(localStorage.getItem('poolHistory')||'[]');if(!Array.isArray(history))history=[];}catch(e){history=[];}
+history=history.map(h=>({...h,casses:h.casses||[0,0],reprises:h.reprises||[0,0]}));
 
-let history=JSON.parse(localStorage.getItem('poolHistory')||'[]');
-history=history.map(h=>({
- ...h,
- casses:h.casses||[0,0],
- reprises:h.reprises||[0,0]
-}));
-
-function fmt(v){
- v=Math.max(0,Math.ceil(v));
- return String(Math.floor(v/60)).padStart(2,'0')+':'+
- String(v%60).padStart(2,'0');
+function fmt(v){v=Math.max(0,Math.ceil(v));return String(Math.floor(v/60)).padStart(2,'0')+':'+String(v%60).padStart(2,'0');}
+function goal(){return Math.max(1,Number($('target').value)||1);}
+function count(){return Math.max(2,Math.min(8,Number($('playerCount').value)||2));}
+function save(){localStorage.setItem('poolHistory',JSON.stringify(history));}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function setupNames(){
+ const n=$('mode').value==='duel'?2:count();
+ $('countSetting').classList.toggle('hidden',$('mode').value==='duel');
+ $('modeHint').textContent=$('mode').value==='duel'?'En 1 contre 1, l’objectif correspond au nombre de manches à gagner.':'En Challenge, le premier joueur qui atteint l’objectif de points gagne. Le tour change avec le bouton Joueur suivant.';
+ $('nameSetup').innerHTML=Array.from({length:n},(_,i)=>'<input id="setupName'+i+'" maxlength="22" placeholder="Nom du joueur '+(i+1)+'" value="'+esc(playerNames[i]||DEFAULT_NAMES[i])+'">').join('');
 }
-
-function goal(){
- return Math.max(1,Number($('target').value)||1);
+function readSetupNames(){
+ const n=$('mode').value==='duel'?2:count();
+ return Array.from({length:n},(_,i)=>($('setupName'+i)?.value||'').trim()||DEFAULT_NAMES[i]);
 }
-
-function save(){
- localStorage.setItem('poolHistory',JSON.stringify(history));
-}
-
-function names(){
- return [
-  $('p1').value.trim()||'Joueur 1',
-  $('p2').value.trim()||'Joueur 2'
- ];
-}
-
+function isChallenge(){return mode==='challenge';}
+function canEdit(){return started&&!finished&&pendingWinner===null;}
 function render(){
- $('s1').textContent=wins[0];
- $('s2').textContent=wins[1];
- $('c1').textContent=casses[0];
- $('c2').textContent=casses[1];
- $('r1').textContent=reprises[0];
- $('r2').textContent=reprises[1];
+ $('gameTitle').textContent=isChallenge()?'CHALLENGE EN COURS':'RENCONTRE EN COURS';
+ $('turnBanner').classList.toggle('hidden',!isChallenge()||!started);
+ if(isChallenge()&&started)$('turnBanner').textContent='🎱 AU TOUR DE : '+playerNames[currentPlayer];
+ $('players').style.gridTemplateColumns=playerNames.length===2?'repeat(2,minmax(0,1fr))':'repeat(2,minmax(0,1fr))';
+ $('players').innerHTML=playerNames.map((name,i)=>{
+  const active=isChallenge()&&started&&i===currentPlayer;
+  return `<div class="player ${active?'active':''}">
+   ${started?`<div class="player-name">${esc(name)}</div>`:`<input id="editName${i}" value="${esc(name)}" aria-label="Nom du joueur ${i+1}">`}
+   <div class="turn-tag">${active?'● À TON TOUR':''}</div>
+   <div class="score">${scores[i]||0}</div>
+   <div class="controls">
+    <button class="minus" data-score="${i}" data-delta="-1" ${!canEdit()?'disabled':''}>−</button>
+    <button class="plus" data-score="${i}" data-delta="1" ${!canEdit()?'disabled':''}>+</button>
+   </div>
+   <div class="timer-pair">
+    <div class="timer-mini"><label>TEMPS MATCH</label><strong>${fmt(total)}</strong></div>
+    <div class="timer-mini"><label>TEMPS COUP</label><strong>${fmt(shot)}</strong></div>
+   </div>
+   ${!isChallenge()?`<button class="extension ${extensionsUsed[i]?'used':''}" data-extension="${i}" ${!canEdit()||extensionsUsed[i]?'disabled':''}>${extensionsUsed[i]?'✕ EXTENSION UTILISÉE':'✓ EXTENSION DISPONIBLE'}</button>`:''}
+   <div class="stat"><div class="stat-title">CASSE FERME</div><div class="stat-row">
+    <button class="minus" data-ferme="casse" data-player="${i}" data-delta="-1" ${!canEdit()||!casses[i]?'disabled':''}>−</button><strong>${casses[i]||0}</strong>
+    <button class="plus" data-ferme="casse" data-player="${i}" data-delta="1" ${!canEdit()?'disabled':''}>+</button>
+   </div></div>
+   <div class="stat"><div class="stat-title">REPRISE FERME</div><div class="stat-row">
+    <button class="minus" data-ferme="reprise" data-player="${i}" data-delta="-1" ${!canEdit()||!reprises[i]?'disabled':''}>−</button><strong>${reprises[i]||0}</strong>
+    <button class="plus" data-ferme="reprise" data-player="${i}" data-delta="1" ${!canEdit()?'disabled':''}>+</button>
+   </div></div>
+  </div>`;
+ }).join('');
 
- $('total1').textContent=fmt(total);
- $('total2').textContent=fmt(total);
- $('shot1').textContent=fmt(shot);
- $('shot2').textContent=fmt(shot);
-
- $('startPause').textContent=!started?'DÉMARRER':
-  finished?'RENCONTRE TERMINÉE':totalRun?'PAUSE MATCH':'REPRENDRE MATCH';
-
+ $('startPause').textContent=!started?'DÉMARRER':finished?'RENCONTRE TERMINÉE':totalRun?'PAUSE MATCH':'REPRENDRE MATCH';
  $('startPause').disabled=finished;
  $('newShot').disabled=!started||finished||pendingWinner!==null;
  $('shotPause').disabled=!started||finished||pendingWinner!==null;
-
- [
-  'm1','m2','a1','a2','cm1','cm2','ca1','ca2',
-  'rm1','rm2','ra1','ra2'
- ].forEach(id=>{
-  $(id).disabled=!started||finished||pendingWinner!==null;
- });
-
- ['cm1','cm2'].forEach((id,i)=>{
-  $(id).disabled=!started||finished||pendingWinner!==null||casses[i]===0;
- });
-
- ['rm1','rm2'].forEach((id,i)=>{
-  $(id).disabled=!started||finished||pendingWinner!==null||reprises[i]===0;
- });
-
- for(let i=0;i<2;i++){
-  let button=$('ext'+(i+1));
-  button.textContent=extensionsUsed[i]
-   ?'✕ EXTENSION UTILISÉE':'✓ EXTENSION DISPONIBLE';
-  button.classList.toggle('used',extensionsUsed[i]);
-  button.disabled=!started||finished||pendingWinner!==null||extensionsUsed[i];
+ $('challengeActions').classList.toggle('hidden',!isChallenge()||!started);
+ $('nextPlayer').disabled=!canEdit();$('backPlayer').disabled=!canEdit();
+ document.querySelectorAll('[data-score]').forEach(b=>b.onclick=()=>changeScore(Number(b.dataset.score),Number(b.dataset.delta)));
+ document.querySelectorAll('[data-ferme]').forEach(b=>b.onclick=()=>changeFerme(Number(b.dataset.player),b.dataset.ferme,Number(b.dataset.delta)));
+ document.querySelectorAll('[data-extension]').forEach(b=>b.onclick=()=>useExtension(Number(b.dataset.extension)));
  }
-}
-
 function alertEnd(){
- try{
-  let C=window.AudioContext||window.webkitAudioContext;
-  if(C){
-   let c=new C();
-   let o=c.createOscillator();
-   let g=c.createGain();
-   o.connect(g);g.connect(c.destination);
-   o.frequency.value=880;g.gain.value=.15;
-   o.start();o.stop(c.currentTime+.6);
-   o.onended=()=>c.close();
-  }
- }catch(e){}
+ try{let C=window.AudioContext||window.webkitAudioContext;if(C){let c=new C(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=880;g.gain.value=.15;o.start();o.stop(c.currentTime+.6);o.onended=()=>c.close();}}catch(e){}
  if(navigator.vibrate)navigator.vibrate([250,120,250,120,450]);
 }
-
 function checkWinner(){
- let winner=wins.findIndex(v=>v>=goal());
-
+ const winner=scores.findIndex(v=>v>=goal());
  if(winner!==-1&&!finished&&pendingWinner===null){
-  pendingWinner=winner;
-  totalRun=false;
-  shotRun=false;
-  $('modalText').textContent=
-   matchNames[winner]+' a atteint '+wins[winner]+' manche(s).';
-  $('modal').classList.remove('hidden');
-  render();
-  return true;
+  pendingWinner=winner;totalRun=false;shotRun=false;
+  $('modalText').textContent=playerNames[winner]+' a atteint '+scores[winner]+' '+(isChallenge()?'point(s).':'manche(s).');
+  $('modal').classList.remove('hidden');render();return true;
  }
  return false;
 }
-
-/* Chaque manche gagnée redonne une extension aux deux joueurs. */
-function newFrameIfMatchContinues(){
- let matchEnded=checkWinner();
- if(!matchEnded)extensionsUsed=[false,false];
+function newFrameIfMatchContinues(){if(!checkWinner()&&!isChallenge())extensionsUsed=[false,false];}
+function changeScore(p,delta){
+ if(!canEdit())return;
+ if(isChallenge()&&p!==currentPlayer){$('status').textContent='C’est le tour de '+playerNames[currentPlayer]+'. Utilise « Joueur suivant » pour changer.';return;}
+ scores[p]=Math.max(0,scores[p]+delta);
+ if(delta>0)newFrameIfMatchContinues();
+ $('status').textContent=isChallenge()?playerNames[p]+' : '+scores[p]+' point(s).':'Rencontre en cours : '+scores[0]+' - '+scores[1]+'.';
+ render();
 }
-
+function changeFerme(p,type,delta){
+ if(!canEdit())return;
+ if(isChallenge()&&p!==currentPlayer){$('status').textContent='C’est le tour de '+playerNames[currentPlayer]+'.';return;}
+ const arr=type==='casse'?casses:reprises;
+ if(delta<0&&arr[p]===0)return;
+ arr[p]=Math.max(0,arr[p]+delta);scores[p]=Math.max(0,scores[p]+delta);
+ if(delta>0)newFrameIfMatchContinues();
+ $('status').textContent=playerNames[p]+' — '+(type==='casse'?'Casse ferme':'Reprise ferme')+'.';
+ render();
+}
+function useExtension(p){
+ if(!canEdit()||extensionsUsed[p])return;
+ extensionsUsed[p]=true;$('status').textContent=playerNames[p]+' a utilisé son extension pour cette manche.';render();
+}
 function finishMatch(){
  if(pendingWinner===null)return;
-
- let winner=pendingWinner;
- pendingWinner=null;
- finished=true;
-
- history.unshift({
-  id:Date.now(),
-  date:new Date().toLocaleString('fr-FR'),
-  players:matchNames.slice(),
-  winner:matchNames[winner],
-  score:wins.slice(),
-  casses:casses.slice(),
-  reprises:reprises.slice()
- });
-
- history=history.slice(0,200);
- save();
-
- $('modal').classList.add('hidden');
- $('status').textContent=
-  '🏆 '+matchNames[winner]+' remporte la rencontre ! Résultat enregistré.';
-
- alertEnd();
- render();
- renderHistory();
- renderRanking();
+ const winner=pendingWinner;pendingWinner=null;finished=true;
+ history.unshift({id:Date.now(),date:new Date().toLocaleString('fr-FR'),mode,players:playerNames.slice(),winner:playerNames[winner],winnerIndex:winner,score:scores.slice(),casses:casses.slice(),reprises:reprises.slice()});
+ history=history.slice(0,200);save();$('modal').classList.add('hidden');
+ $('status').textContent='🏆 '+playerNames[winner]+' remporte '+(isChallenge()?'le challenge':'la rencontre')+' ! Résultat enregistré.';
+ alertEnd();render();renderHistory();renderRanking();
 }
-
 $('validate').onclick=finishMatch;
-
-$('correct').onclick=()=>{
- pendingWinner=null;
- $('modal').classList.add('hidden');
- $('status').textContent='Tu peux maintenant corriger le score.';
- render();
-};
-
-function changeScore(p,a){
- if(!started||finished||pendingWinner!==null)return;
-
- wins[p]=Math.max(0,wins[p]+a);
- if(a>0)newFrameIfMatchContinues();
-
- $('status').textContent='Rencontre en cours : '+wins[0]+' - '+wins[1]+'.';
- render();
-}
-
-function changeFerme(p,type,a){
- if(!started||finished||pendingWinner!==null)return;
-
- let arr=type==='casse'?casses:reprises;
- if(a<0&&arr[p]===0)return;
-
- arr[p]=Math.max(0,arr[p]+a);
- wins[p]=Math.max(0,wins[p]+a);
-
- if(a>0)newFrameIfMatchContinues();
-
- $('status').textContent='Rencontre en cours : '+wins[0]+' - '+wins[1]+'.';
- render();
-}
-
-function useExtension(p){
- if(!started||finished||pendingWinner!==null||extensionsUsed[p])return;
-
- extensionsUsed[p]=true;
- $('status').textContent=
-  matchNames[p]+' a utilisé son extension pour cette manche.';
- render();
-}
-
-$('ext1').onclick=()=>useExtension(0);
-$('ext2').onclick=()=>useExtension(1);
-
-$('a1').onclick=()=>changeScore(0,1);
-$('m1').onclick=()=>changeScore(0,-1);
-$('a2').onclick=()=>changeScore(1,1);
-$('m2').onclick=()=>changeScore(1,-1);
-
-$('ca1').onclick=()=>changeFerme(0,'casse',1);
-$('cm1').onclick=()=>changeFerme(0,'casse',-1);
-$('ca2').onclick=()=>changeFerme(1,'casse',1);
-$('cm2').onclick=()=>changeFerme(1,'casse',-1);
-
-$('ra1').onclick=()=>changeFerme(0,'reprise',1);
-$('rm1').onclick=()=>changeFerme(0,'reprise',-1);
-$('ra2').onclick=()=>changeFerme(1,'reprise',1);
-$('rm2').onclick=()=>changeFerme(1,'reprise',-1);
+$('correct').onclick=()=>{pendingWinner=null;$('modal').classList.add('hidden');$('status').textContent='Tu peux maintenant corriger le score.';render();};
 
 function startMatch(){
- wins=[0,0];
- casses=[0,0];
- reprises=[0,0];
- extensionsUsed=[false,false];
-
- matchNames=names();
- started=true;
- finished=false;
- pendingWinner=null;
-
- total=Math.max(1,Number($('totalSet').value)||45)*60;
- shot=Math.max(1,Number($('shotSet').value)||30);
-
- totalRun=true;
- shotRun=false;
- last=Date.now();
-
- $('status').textContent='Rencontre démarrée !';
+ mode=$('mode').value;
+ playerNames=readSetupNames();
+ scores=playerNames.map(()=>0);casses=playerNames.map(()=>0);reprises=playerNames.map(()=>0);extensionsUsed=playerNames.map(()=>false);
+ currentPlayer=0;started=true;finished=false;pendingWinner=null;
+ total=Math.max(1,Number($('totalSet').value)||45)*60;shot=Math.max(1,Number($('shotSet').value)||30);
+ totalRun=true;shotRun=false;last=Date.now();
+ $('settings').open=false;
+ $('status').textContent=isChallenge()?'Challenge démarré ! Au tour de '+playerNames[0]+'.':'Rencontre démarrée !';
  render();
 }
-
 $('startPause').onclick=()=>{
- if(!started){
-  startMatch();
-  return;
- }
- if(finished)return;
-
- totalRun=!totalRun;
- last=Date.now();
- $('status').textContent=totalRun?'Chronomètre du match repris.':'Chronomètre du match en pause.';
- render();
+ if(!started){startMatch();return;}if(finished)return;
+ totalRun=!totalRun;last=Date.now();$('status').textContent=totalRun?'Chronomètre du match repris.':'Chronomètre du match en pause.';render();
 };
-
 $('stopMatch').onclick=()=>{
  if(started&&!finished&&!confirm('Arrêter cette rencontre ? Elle ne sera pas enregistrée.'))return;
-
- $('modal').classList.add('hidden');
- wins=[0,0];casses=[0,0];reprises=[0,0];
- extensionsUsed=[false,false];
-
- started=false;finished=false;pendingWinner=null;
- totalRun=false;shotRun=false;
-
- total=Math.max(1,Number($('totalSet').value)||45)*60;
- shot=Math.max(1,Number($('shotSet').value)||30);
-
- $('status').textContent='Entre les noms puis démarre la rencontre.';
- render();
+ $('modal').classList.add('hidden');scores=playerNames.map(()=>0);casses=playerNames.map(()=>0);reprises=playerNames.map(()=>0);extensionsUsed=playerNames.map(()=>false);
+ started=false;finished=false;pendingWinner=null;totalRun=false;shotRun=false;currentPlayer=0;
+ total=Math.max(1,Number($('totalSet').value)||45)*60;shot=Math.max(1,Number($('shotSet').value)||30);
+ $('status').textContent='Entre les noms puis démarre la rencontre.';render();
 };
-
-$('newShot').onclick=()=>{
- if(!started||finished||pendingWinner!==null)return;
-
- shot=Math.max(1,Number($('shotSet').value)||30);
- shotRun=true;
- last=Date.now();
- $('status').textContent='Nouveau coup : chronomètre lancé.';
- render();
-};
-
-$('shotPause').onclick=()=>{
- if(!started||finished||pendingWinner!==null)return;
-
- shotRun=!shotRun;
- last=Date.now();
- $('status').textContent=shotRun?'Chronomètre du coup repris.':'Chronomètre du coup en pause.';
- render();
-};
-
-$('totalReset').onclick=()=>{
- totalRun=false;
- total=Math.max(1,Number($('totalSet').value)||45)*60;
- last=Date.now();
- render();
-};
-
-function esc(s){
- return String(s).replace(/[&<>"']/g,c=>({
-  '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
- }[c]));
-}
+$('newShot').onclick=()=>{if(!canEdit())return;shot=Math.max(1,Number($('shotSet').value)||30);shotRun=true;last=Date.now();$('status').textContent='Nouveau coup : chronomètre lancé.';render();};
+$('shotPause').onclick=()=>{if(!canEdit())return;shotRun=!shotRun;last=Date.now();$('status').textContent=shotRun?'Chronomètre du coup repris.':'Chronomètre du coup en pause.';render();};
+$('totalReset').onclick=()=>{totalRun=false;total=Math.max(1,Number($('totalSet').value)||45)*60;last=Date.now();render();};
+$('nextPlayer').onclick=()=>{if(!canEdit())return;currentPlayer=(currentPlayer+1)%playerNames.length;$('status').textContent='Au tour de '+playerNames[currentPlayer]+'.';render();};
+$('backPlayer').onclick=()=>{if(!canEdit())return;currentPlayer=(currentPlayer-1+playerNames.length)%playerNames.length;$('status').textContent='Au tour de '+playerNames[currentPlayer]+'.';render();};
 
 function deleteMatch(i){
- let h=history[i];
- if(!h)return;
-
- if(!confirm(
-  'Supprimer définitivement cette rencontre ?\n'+
-  h.players.join(' vs ')+
-  '\nElle sera aussi retirée des classements.'
- ))return;
-
- history.splice(i,1);
- save();
- renderHistory();
- renderRanking();
+ const h=history[i];if(!h)return;
+ if(!confirm('Supprimer définitivement cette rencontre ?\n'+(h.players||[]).join(' vs ')+'\nElle sera aussi retirée des classements.'))return;
+ history.splice(i,1);save();renderHistory();renderRanking();
 }
-
 function renderHistory(){
- $('historyList').innerHTML=history.length
- ?history.map((h,i)=>{
-  let c=h.casses||[0,0],r=h.reprises||[0,0];
-  let players=h.players||['Joueur 1','Joueur 2'];
-  return '<div class="row"><div class="row-info"><strong>'+
-   esc(players.join(' vs '))+'</strong><br><small>'+
-   esc(h.date||'')+'</small><br>'+esc(h.winner||'')+
-   ' — '+(h.score||[0,0]).join(' - ')+
-   '<br><small>Fermes : '+
-   ((c[0]||0)+(r[0]||0))+' - '+((c[1]||0)+(r[1]||0))+
-   '</small></div><button class="delete" data-del="'+i+'">🗑️</button></div>';
- }).join('')
- :'Aucune rencontre terminée.';
-
- document.querySelectorAll('[data-del]').forEach(b=>{
-  b.onclick=()=>deleteMatch(Number(b.dataset.del));
- });
+ $('historyList').innerHTML=history.length?history.map((h,i)=>{
+  const players=h.players||['Joueur 1','Joueur 2'],sc=h.score||[0,0],c=h.casses||[],r=h.reprises||[];
+  const ferme=players.map((_,j)=>(c[j]||0)+(r[j]||0)).join(' - ');
+  return `<div class="row"><div class="row-info"><strong>${esc(players.join(' vs '))}</strong><br><small>${esc(h.date||'')} · ${h.mode==='challenge'?'Challenge':'1 contre 1'}</small><br>🏆 ${esc(h.winner||'')} — ${players.map((n,j)=>esc(n)+': '+(sc[j]||0)).join(' · ')}<br><small>Fermes : ${ferme}</small></div><button class="delete" data-del="${i}">🗑️</button></div>`;
+ }).join(''):'Aucune rencontre terminée.';
+ document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>deleteMatch(Number(b.dataset.del)));
 }
-
 function renderRanking(){
- let stats={};
-
+ const stats={};
  history.forEach(h=>{
-  (h.players||[]).forEach((n,i)=>{
-   stats[n]??={wins:0,played:0,fermes:0};
-   stats[n].played++;
-   stats[n].fermes+=(h.casses?.[i]||0)+(h.reprises?.[i]||0);
-  });
-  if(stats[h.winner])stats[h.winner].wins++;
+  const ps=h.players||['Joueur 1','Joueur 2'],cs=h.casses||[],rs=h.reprises||[];
+  ps.forEach((n,i)=>{stats[n]??={wins:0,played:0,fermes:0};stats[n].played++;stats[n].fermes+=(cs[i]||0)+(rs[i]||0);});
+  if(h.winner&&stats[h.winner])stats[h.winner].wins++;
  });
-
- let general=Object.entries(stats).sort((a,b)=>
-  b[1].wins-a[1].wins||b[1].played-a[1].played
- );
- let fermes=Object.entries(stats).sort((a,b)=>
-  b[1].fermes-a[1].fermes
- );
-
- $('generalList').innerHTML=general.length
- ?general.map((x,i)=>
-  '<div class="rank"><span>'+(i+1)+'. '+esc(x[0])+
-  '<br><small>'+x[1].played+' rencontre(s)</small></span><b>'+
-  x[1].wins+' victoire(s)</b></div>'
- ).join('')
- :'Pas encore de résultat.';
-
- $('fermeList').innerHTML=fermes.length
- ?fermes.map((x,i)=>
-  '<div class="rank"><span>'+(i+1)+'. '+esc(x[0])+
-  '</span><b>'+x[1].fermes+'</b></div>'
- ).join('')
- :'Pas encore de résultat.';
+ const general=Object.entries(stats).sort((a,b)=>b[1].wins-a[1].wins||b[1].played-a[1].played);
+ const fermes=Object.entries(stats).sort((a,b)=>b[1].fermes-a[1].fermes);
+ $('generalList').innerHTML=general.length?general.map((x,i)=>`<div class="rank"><span>${i+1}. ${esc(x[0])}<br><small>${x[1].played} rencontre(s)</small></span><b>${x[1].wins} victoire(s)</b></div>`).join(''):'Pas encore de résultat.';
+ $('fermeList').innerHTML=fermes.length?fermes.map((x,i)=>`<div class="rank"><span>${i+1}. ${esc(x[0])}</span><b>${x[1].fermes}</b></div>`).join(''):'Pas encore de résultat.';
 }
-
-function showPage(page){
- ['game','history','ranking'].forEach(id=>{
-  $(id).classList.toggle('hidden',id!==page);
- });
-}
-
+function showPage(page){['game','history','ranking'].forEach(id=>$(id).classList.toggle('hidden',id!==page));}
 $('showGame').onclick=()=>showPage('game');
-
-$('showHistory').onclick=()=>{
- renderHistory();
- showPage('history');
-};
-
-$('showRanking').onclick=()=>{
- renderRanking();
- showPage('ranking');
-};
+$('showHistory').onclick=()=>{renderHistory();showPage('history');};
+$('showRanking').onclick=()=>{renderRanking();showPage('ranking');};
+$('mode').onchange=()=>{if(started)return;setupNames();playerNames=readSetupNames();render();};
+$('playerCount').onchange=()=>{if(started)return;setupNames();playerNames=readSetupNames();render();};
 
 setInterval(()=>{
- let now=Date.now();
- let dt=(now-last)/1000;
- last=now;
-
- if(totalRun){
-  total=Math.max(0,total-dt);
-  if(total===0){
-   totalRun=false;
-   alertEnd();
-   $('status').textContent='Temps total écoulé !';
-  }
- }
-
- if(shotRun){
-  shot=Math.max(0,shot-dt);
-  if(shot===0){
-   shotRun=false;
-   alertEnd();
-   $('status').textContent='Temps du coup écoulé !';
-  }
- }
-
- render();
+ const now=Date.now(),dt=(now-last)/1000;last=now;
+ if(totalRun){total=Math.max(0,total-dt);if(total===0){totalRun=false;alertEnd();$('status').textContent='Temps total écoulé !';}}
+ if(shotRun){shot=Math.max(0,shot-dt);if(shot===0){shotRun=false;alertEnd();$('status').textContent='Temps du coup écoulé !';}}
+ if(started)renderTimersOnly();
 },250);
-
-render();
-renderHistory();
-renderRanking();
-
-if('serviceWorker' in navigator){
- window.addEventListener('load',()=>{
-  navigator.serviceWorker.register('./sw.js').catch(e=>console.log(e));
- });
+function renderTimersOnly(){
+ document.querySelectorAll('.timer-mini strong').forEach((el,i)=>{el.textContent=i%2===0?fmt(total):fmt(shot);});
 }
+setupNames();playerNames=readSetupNames();render();renderHistory();renderRanking();
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(e=>console.log(e)));}
 </script>
 </body>
 </html>
